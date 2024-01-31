@@ -4,10 +4,17 @@ import "./index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
   },
   
   {
