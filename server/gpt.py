@@ -7,7 +7,7 @@ p = []
 for data in sys.argv[1:]:
     p.append(json.loads(data))
 
-openai.api_key = "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"
+openai.api_key = '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'
 
 # prompt = "Please generate a blog outline on how a beginner can break into the field of data science."
 
