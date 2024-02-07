@@ -1,24 +1,25 @@
 import json
 import os
-import openai
+from openai import OpenAI
 import sys
+
 
 p = []
 for data in sys.argv[1:]:
     p.append(json.loads(data))
+    # print(f"data:{p}")
 
-openai.api_key = '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'
-
-# prompt = "Please generate a blog outline on how a beginner can break into the field of data science."
-
-completion = openai.ChatCompletion.create(
-  model="gpt-3.5-turbo",
-  # messages=[
-  #   {"role": "system", "content": "You are a helpful assistant with extensive experience in data science and technical writing."},
-  #   {"role": "user", "content": p}
-  # ]
-  messages = p
+client = OpenAI(
+  api_key='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',  
 )
 
-# print(completion.choices[0].message)
-print(completion["choices"][0]["message"]["content"])
+prompt = "Please generate a blog outline on how a beginner can break into the field of data science."
+
+response = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=p
+)
+
+generated_text = response.choices[0].message.content
+
+print(f"GPT response: {generated_text}")

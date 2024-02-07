@@ -12,10 +12,11 @@ async function QueryGPT(prompt) {
     };
     let answer;
     await PythonShell.run("gpt.py", options).then((res) => {
+      // answer = res;
+      
+      console.log(res, "hi");
       answer = res;
-      //return res
-      // console.log(res, "hi");
-      //answer = res;
+      return res
     });
     return answer;
   } catch (err) {
