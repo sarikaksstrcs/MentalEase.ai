@@ -24,41 +24,41 @@ const navigations = [
     path: "/plans",
     Icon: ({ color }) => <SiPlanet size={25} color={color} />,
   },
-  // {
-  //   id: 3,
-  //   name: "Reports",
-  //   path: "/reports",
-  //   Icon: ({ color }) => <BiSolidReport size={25} color={color} />,
-  // },
-  // {
-  //   id: 4,
-  //   name: "Search Doctors",
-  //   path: "/search-doctors",
-  //   Icon: ({ color }) => <FaUserDoctor size={25} color={color} />,
-  // },
-  // {
-  //   id: 5,
-  //   path: "/diet-plan",
-  //   name: "Diet Plan",
-  //   Icon: ({ color }) => <MdOutlineFoodBank size={25} color={color} />,
-  // },
+  {
+    id: 3,
+    name: "Reports",
+    path: "/reports",
+    Icon: ({ color }) => <BiSolidReport size={25} color={color} />,
+  },
+  {
+    id: 4,
+    name: "Search Doctors",
+    path: "/search-doctors",
+    Icon: ({ color }) => <FaUserDoctor size={25} color={color} />,
+  },
+  {
+    id: 5,
+    path: "/diet-plan",
+    name: "Diet Plan",
+    Icon: ({ color }) => <MdOutlineFoodBank size={25} color={color} />,
+  },
   {
     id: 6,
     path: "/chat",
     name: "Support Group",
     Icon: ({ color }) => <BsFillChatLeftTextFill size={25} color={color} />,
   },
-  // {
-  //   id: 8,
-  //   path: "/rewards",
-  //   name: "Rewards",
-  //   Icon: ({ color }) => <FaAward size={25} color={color} />,
-  // },
-  // {
-  //   id: 7,
-  //   name: "Emergency Call",
-  //   Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
-  // },
+  {
+    id: 8,
+    path: "/rewards",
+    name: "Rewards",
+    Icon: ({ color }) => <FaAward size={25} color={color} />,
+  },
+  {
+    id: 7,
+    name: "Emergency Call",
+    Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
+  },
 ];
 const Navbar = () => {
   const location = useLocation();

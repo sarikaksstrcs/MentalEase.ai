@@ -15,6 +15,8 @@ app = Flask(__name__)
 model = load_model('Data_noiseNshift.h5', custom_objects={'GlorotUniform': glorot_uniform()})
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
+audio_file_path = "output.mp3"
+
 def process_audio():
     input_duration = 3
     data_test = pd.DataFrame(columns=['feature'])

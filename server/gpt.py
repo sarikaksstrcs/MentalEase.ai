@@ -13,7 +13,7 @@ client = OpenAI(
   api_key='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',  
 )
 
-prompt = "Please generate a blog outline on how a beginner can break into the field of data science."
+# prompt = "Please generate a blog outline on how a beginner can break into the field of data science."
 
 response = client.chat.completions.create(
   model="gpt-3.5-turbo",
@@ -22,4 +22,4 @@ response = client.chat.completions.create(
 
 generated_text = response.choices[0].message.content
 
-print(f"GPT response: {generated_text}")
+print(generated_text)
