@@ -13,6 +13,7 @@ import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Quiz from "./pages/Quiz/Quiz";
 import Awards from "./pages/Awards/Awards";
+import MalChat from "./pages/Chat/MalChat";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <App />,
+  },
+  {
+    path: "/malchat",
+    element: <MalChat />
   },
 ]);
 ReactDOM.render(

@@ -19,6 +19,12 @@ const navigations = [
     Icon: ({ color }) => <FiHome size={25} color={color} />,
   },
   {
+    id: 8,
+    name: "Chat in Malayalam",
+    path: "/malchat",
+    Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
+  },
+  {
     id: 2,
     name: "Plans",
     path: "/plans",
