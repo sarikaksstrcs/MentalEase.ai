@@ -20,6 +20,7 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 // import { extend } from '@react-three/fiber'
+// import { useTexture } from '@react-three/drei';
 import * as THREE from "three";
 import axios from "axios";
 import AudioReactRecorder, { RecordState } from "audio-react-recorder";
@@ -38,6 +39,8 @@ function Avatar({
   setAudioSource,
   playing,
 }) {
+  const [lipMovementClips, setLipMovementClips] = useState([]);
+  // const mixer = useMemo(() => new THREE.AnimationMixer(gltf.scene), [gltf.scene]);
   let gltf = useGLTF(avatar_url);
   let morphTargetDictionaryBody = null;
   let morphTargetDictionaryLowerTeeth = null;
@@ -75,6 +78,7 @@ function Avatar({
     "/images/h_alpha.webp",
     "/images/h_normal.webp",
     "/images/h_roughness.webp",
+    "/images/bg.jpg",
   ]);
 
   _.each(
@@ -217,6 +221,10 @@ function Avatar({
       console.log("filename: ",filename);
       setClips(newClips);
       setAudioSource(filename);
+
+      setLipMovementClips(newClips);
+        
+
     })
     .catch((err) => {
       console.error(err);
@@ -225,7 +233,19 @@ function Avatar({
     });
 }, [speak, text, setSpeak, morphTargetDictionaryBody, morphTargetDictionaryLowerTeeth, setAudioSource]);
 
+useEffect(() => {
+  if (lipMovementClips.length === 0){
+    console.log("lips")
+    return;
+  } 
 
+  _.each(lipMovementClips, (clip) => {
+    
+    let clipAction = mixer.clipAction(clip);
+    clipAction.setLoop(THREE.LoopOnce);
+    clipAction.play();
+  });
+}, [lipMovementClips, mixer]);
 
   let idleFbx = useFBX("/idle.fbx");
   let { clips: idleClips } = useAnimations(idleFbx.animations);
@@ -327,7 +347,6 @@ function playAudioFromUtterance(utterance) {
 function makeSpeech(text) {
   console.log("textonpeech: ",text)
   speakText(text)
-  
   return axios.post(host + "talk", { text })
     .then(response => response.data)
     // console.log("?speech response: ",response)
@@ -338,12 +357,16 @@ function makeSpeech(text) {
 }
 
 const STYLES = {
+  
   area: {
     position: "absolute",
     top: "20px",
     left: "10px",
     zIndex: 500,
     width: "50vw",
+    backgroundImage: 'url("client/src/assets/bg-image.jpg"")', // Background image URL
+    backgroundSize: "cover", // Adjust background size as needed
+    padding: "10px",
   },
   text: {
     margin: "0px",
@@ -492,7 +515,7 @@ const ChatBot = () => {
     // setUserMessage(transcript);
     setRecordState(RecordState.STOP);
     SpeechRecognition.stopListening();
-    console.log(transcript);
+    console.log("u said",transcript);
     setChats([...chats, { role: "User", msg: transcript }]);
     getResponse(transcript);
     // capture();
@@ -615,6 +638,13 @@ const ChatBot = () => {
         </div>
 
         {/* <Stats /> */}
+        <div
+                style={{
+                  backgroundImage: 'url("client/src/assets/bg-image.jpg")',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
         <div className="w-[83vw]">
           <Canvas
             dpr={2}
@@ -634,8 +664,12 @@ const ChatBot = () => {
 
             <Suspense fallback={null}>
               <Environment
-                background={false}
+                background={true}
                 files="/images/photo_studio_loft_hall_1k.hdr"
+                // preset="studio" // Preset for lighting and fog (optional)
+                intensity={1} // Intensity of the environment map (default is 1)
+                backgroundOpacity={1} // Opacity of the background (default is 1)
+                shadow={false}
               />
             </Suspense>
 
@@ -644,16 +678,19 @@ const ChatBot = () => {
             </Suspense>
 
             <Suspense fallback={null}>
-              <Avatar
-                avatar_url="/model.glb"
-                speak={speak}
-                setSpeak={setSpeak}
-                text={text}
-                setAudioSource={setAudioSource}
-                playing={playing}
-              />
+            
+                <Avatar
+                  avatar_url="/model.glb"
+                  speak={speak}
+                  setSpeak={setSpeak}
+                  text={text}
+                  setAudioSource={setAudioSource}
+                  playing={playing}
+                />
+              
             </Suspense>
           </Canvas>
+        </div>
         </div>
         <Loader dataInterpolation={(p) => `Loading... please wait`} />
       </div>
@@ -662,7 +699,9 @@ const ChatBot = () => {
 };
 
 function Bg() {
-  const texture = useTexture("/images/bg.webp");
+const texture = useTexture("/images/bg.jpg");
+texture.minFilter = THREE.LinearFilter; // or THREE.NearestFilter
+texture.magFilter = THREE.LinearFilter;
 
   return (
     <mesh position={[0, 1.5, -2]} scale={[0.9, 0.8, 0.9]}>
