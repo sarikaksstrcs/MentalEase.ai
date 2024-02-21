@@ -8,7 +8,7 @@ import { BiSolidPhoneCall } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import { FaAward } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
-import logo from "../../assets/logo.png"
+import logo from "../../assets/Logo-main.png"
 import { GroupIcon, HomeIcon, MalChatIcon, PlanIcon, ReportIcon, RewardIcon, SearchIcon } from "../Icons/Icons";
 const navigations = [
   {
@@ -54,12 +54,12 @@ const navigations = [
     name: "Support Group",
     Icon: ({ color }) => <GroupIcon />
   },
-  {
-    id: 8,
-    path: "/rewards",
-    name: "Rewards",
-    Icon: ({ color }) => <RewardIcon />,
-  },
+  // {
+  //   id: 8,
+  //   path: "/rewards",
+  //   name: "Rewards",
+  //   Icon: ({ color }) => <RewardIcon />,
+  // },
   // {
   //   id: 7,
   //   name: "Emergency Call",
@@ -81,11 +81,11 @@ const Navbar = () => {
   return (
     <div className="py-6 px-4 h-screen overflow-y-auto w-1/4 shadow-lg">
       <ToastContainer />
-      <div className="flex items-center gap-2 ">
-          <h1 className="text-2xl text-teal-500 font-bold">MentalEase.ai</h1>
-          <img src={logo} className="w-12" />
+      <div className="flex items-center gap-2 pb-2 ">
+          <img src={logo} className="w-10" />
+          <h1 className="text-2xl text-transparent bg-clip-text bg-gradient-to-r to-sky-600 from-sky-400 font-bold">MentalHealth.ai</h1>
       </div>
-      <div className="mt-8">
+      <div className="mt-4">
         <div>
         {navigations.map((nav) => (
           <Link
@@ -99,7 +99,7 @@ const Navbar = () => {
           >
             <div
               className={`flex flex-row items-center py-4 px-2 rounded-md ${
-                location.pathname === nav.path ? "bg-teal-100" : ""
+                location.pathname === nav.path ? "bg-opacity-50 bg-gradient-to-r to-sky-400 from-sky-200" : ""
               } `}
             >
               <nav.Icon
