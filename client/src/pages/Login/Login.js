@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import wallpaper from "../../assets/login_wallp.png";
+import wallpaper from "../../assets/Logo-main.png";
 import { MdEmail, MdPassword } from "react-icons/md";
 import axios from "axios";
 
@@ -35,20 +35,21 @@ const Login = () => {
       });
   };
   return (
-    <div className="w-full h-screen flex">
-      <div className="flex flex-col px-36 py-6 flex-grow max-w-[60vw]">
-        <div className="mt-32 max-w-[600px]">
-          <h1 className="text-5xl leading-tight font-semibold mt-4 text-transparent bg-clip-text bg-gradient-to-r to-sky-600 from-sky-400">
-          MentalEase.AI
-          </h1>
-          <h1 className="mt-4 text-2xl font-normal ">
-            Where AI Meets Empathy: Your Mental Health Chat Companion
-          </h1>
+     <div className="w-full h-screen flex overflow-hidden">
+      <div className="mt-32 pl-5 w-3/5 ">
+      <h1 class="text-5xl leading-tight font-semibold pt-2 mt-4 text-transparent bg-clip-text bg-gradient-to-r to-sky-600 from-sky-400 
+                  sm:text-xl md:text-2xl lg:text-4xl xl:text-5xl    ">
+      MentalHealth.ai
+        </h1>
+        <h1 className="mt-4 text-2xl font-normal ">
+             Where AI Meets Empathy: Your Mental Health Chat Companion In Malayalam
+        </h1>
+        <div className=" pt-4 justify-center flex">
+         <img src={wallpaper} className="w-[300px] animate-pulse  " />
         </div>
-        <img src={wallpaper} className="w-[450px]" />
       </div>
-      <div className="flex justify-between flex-grow bg-[#02203c] text-sky-300">
-        <div className="p-8 w-full min-h-[300px] px-24 self-center">
+      <div className="w-2/5 bg-[#02203c] flex justify-between text-sky-300">
+      <div className="p-8 w-full min-h-[300px] px-24 self-center">
           <div
             className="flex flex-col justify-center gap-6"
             // onSubmit={(e) => login(e)}
@@ -57,7 +58,7 @@ const Login = () => {
             <p className="text-md font-medium">
               Open the Door to Mental Wellness.
             </p>
-            <div className="bg-sky-900 shadow p-2 flex items-center rounded-md">
+            <div className="bg-sky-900 shadow p-2 flex items-center rounded-md ">
               <MdEmail className="text-sky-500 mr-2" size={18} />
               <input
                 type="text"
