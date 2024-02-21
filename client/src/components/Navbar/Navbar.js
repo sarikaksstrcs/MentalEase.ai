@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FiHome } from "react-icons/fi";
-import { SiPlanet } from "react-icons/si";
 import { BiSolidReport, BiLogOut } from "react-icons/bi";
-import { FaUserDoctor } from "react-icons/fa6";
+
 import { MdOutlineFoodBank } from "react-icons/md";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { BiSolidPhoneCall } from "react-icons/bi";
@@ -11,60 +9,63 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaAward } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/logo.png"
+import { GroupIcon, HomeIcon, MalChatIcon, PlanIcon, ReportIcon, RewardIcon, SearchIcon } from "../Icons/Icons";
 const navigations = [
   {
     id: 1,
     name: "Home",
     path: "/home",
-    Icon: ({ color }) => <FiHome size={25} color={color} />,
+    Icon: ({ color }) => <HomeIcon  />,
   },
   {
     id: 8,
     name: "Chat in Malayalam",
     path: "/malchat",
-    Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
+    Icon: ({ color }) => <MalChatIcon />
+  ,
   },
   {
     id: 2,
     name: "Plans",
     path: "/plans",
-    Icon: ({ color }) => <SiPlanet size={25} color={color} />,
+    Icon: ({ color }) => <PlanIcon color= {color}/>,
   },
   {
     id: 3,
     name: "Reports",
     path: "/reports",
-    Icon: ({ color }) => <BiSolidReport size={25} color={color} />,
+    Icon: ({ color }) => <ReportIcon color= {color}/>,
   },
   {
     id: 4,
     name: "Search Doctors",
     path: "/search-doctors",
-    Icon: ({ color }) => <FaUserDoctor size={25} color={color} />,
+    Icon: ({ color }) => <SearchIcon />,
   },
   {
     id: 5,
     path: "/diet-plan",
     name: "Diet Plan",
-    Icon: ({ color }) => <MdOutlineFoodBank size={25} color={color} />,
+    Icon: ({ color }) => <MdOutlineFoodBank size={30} className="font-light " />,
   },
   {
     id: 6,
     path: "/chat",
     name: "Support Group",
-    Icon: ({ color }) => <BsFillChatLeftTextFill size={25} color={color} />,
+    Icon: ({ color }) => <GroupIcon />
   },
   {
     id: 8,
     path: "/rewards",
     name: "Rewards",
-    Icon: ({ color }) => <FaAward size={25} color={color} />,
+    Icon: ({ color }) => <RewardIcon />,
   },
-  {
-    id: 7,
-    name: "Emergency Call",
-    Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
-  },
+  // {
+  //   id: 7,
+  //   name: "Emergency Call",
+  //   Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
+  // },
+  
 ];
 const Navbar = () => {
   const location = useLocation();
@@ -78,11 +79,11 @@ const Navbar = () => {
     navigate("/")
   }
   return (
-    <div className="py-6 px-4 w-[20vw] h-screen shadow-lg">
+    <div className="py-6 px-4 h-screen overflow-y-auto w-1/4 shadow-lg">
       <ToastContainer />
-      <div className="flex items-center">
-      <h1 className="text-2xl text-teal-500 font-bold">MentalEase.ai</h1>
-      <img src={logo} className="w-12 h-12 ml-2" style={{ width: '80px' }} />
+      <div className="flex items-center gap-2 ">
+          <h1 className="text-2xl text-teal-500 font-bold">MentalEase.ai</h1>
+          <img src={logo} className="w-12" />
       </div>
       <div className="mt-8">
         <div>
