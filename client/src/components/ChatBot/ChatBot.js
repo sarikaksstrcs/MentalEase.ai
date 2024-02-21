@@ -20,12 +20,12 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 // import { extend } from '@react-three/fiber'
-// import { useTexture } from '@react-three/drei';
 import * as THREE from "three";
 import axios from "axios";
 import AudioReactRecorder, { RecordState } from "audio-react-recorder";
 import Webcam from "react-webcam";
 import { BiSolidUser } from "react-icons/bi";
+import { ChatBotIcon, EndCallIcon, StartCallIcon } from "../Icons/Icons";
 // import { PlaneBufferGeometry } from '@react-three/fiber';
 // extend({ PlaneBufferGeometry})
 const _ = require("lodash");
@@ -39,13 +39,10 @@ function Avatar({
   setAudioSource,
   playing,
 }) {
-  const [lipMovementClips, setLipMovementClips] = useState([]);
-  // const mixer = useMemo(() => new THREE.AnimationMixer(gltf.scene), [gltf.scene]);
   let gltf = useGLTF(avatar_url);
   let morphTargetDictionaryBody = null;
   let morphTargetDictionaryLowerTeeth = null;
 
-    
   const [
     bodyTexture,
     eyesTexture,
@@ -78,7 +75,6 @@ function Avatar({
     "/images/h_alpha.webp",
     "/images/h_normal.webp",
     "/images/h_roughness.webp",
-    "/images/bg.jpg",
   ]);
 
   _.each(
@@ -96,7 +92,6 @@ function Avatar({
       hairAlphaTexture,
       hairNormalTexture,
       hairRoughnessTexture,
-      
     ],
     (t) => {
       t.encoding = sRGBEncoding;
@@ -109,7 +104,7 @@ function Avatar({
   teethNormalTexture.encoding = LinearEncoding;
   hairNormalTexture.encoding = LinearEncoding;
 
-   gltf.scene.traverse((node) => {
+  gltf.scene.traverse((node) => {
     if (
       node.type === "Mesh" ||
       node.type === "LineSegments" ||
@@ -176,7 +171,7 @@ function Avatar({
         node.material.transparent = true;
         node.material.depthWrite = false;
         node.material.side = 2;
-        node.material.color.set(0xdaa520);
+        node.material.color.setHex(0x000000);
 
         node.material.envMapIntensity = 0.3;
       }
@@ -203,12 +198,12 @@ function Avatar({
 
 
   useEffect(() => {
+    // makeSpeech("Hi I Am Mellissa your Mental")
   if (speak === false) return;
 
-  console.log("Calling makeSpeech with text:", text);
   makeSpeech(text)
     .then((response) => {
-      // console.log("Sooraj Math/ew")
+      // console.log("Sooraj Mathew")
       console.log("Speech generation response:", response);
       let { blendData, filename } = response.data;
       console.log("response data: ",response.data);
@@ -221,10 +216,6 @@ function Avatar({
       console.log("filename: ",filename);
       setClips(newClips);
       setAudioSource(filename);
-
-      setLipMovementClips(newClips);
-        
-
     })
     .catch((err) => {
       console.error(err);
@@ -233,19 +224,7 @@ function Avatar({
     });
 }, [speak, text, setSpeak, morphTargetDictionaryBody, morphTargetDictionaryLowerTeeth, setAudioSource]);
 
-useEffect(() => {
-  if (lipMovementClips.length === 0){
-    console.log("lips")
-    return;
-  } 
 
-  _.each(lipMovementClips, (clip) => {
-    
-    let clipAction = mixer.clipAction(clip);
-    clipAction.setLoop(THREE.LoopOnce);
-    clipAction.play();
-  });
-}, [lipMovementClips, mixer]);
 
   let idleFbx = useFBX("/idle.fbx");
   let { clips: idleClips } = useAnimations(idleFbx.animations);
@@ -275,6 +254,7 @@ useEffect(() => {
   });
 
   useEffect(() => {
+    // makeSpeech("Hi I am Mellissa Your mental Health Companion")
   let idleClipAction = mixer.clipAction(idleClips[0]);
   idleClipAction.play();
 
@@ -306,17 +286,19 @@ useEffect(() => {
     </group>
   );
 }
+
 function speakText(text) {
   // Create a SpeechSynthesisUtterance object
   const utterance = new SpeechSynthesisUtterance(text);
-
-  // Optionally configure speech parameters
+  const voices = speechSynthesis.getVoices();
+  console.log(voices.length)
+  
+  //  configure speech parameters
   utterance.lang = 'en-US';
-  utterance.volume = 1; // 0 to 1
-  utterance.rate = 1;   // 0.1 to 10
-  utterance.pitch = 1;  // 0 to 2
-
-  // Speak the utterance
+  utterance.volume = 1; 
+  utterance.rate = 1;   
+  utterance.pitch = 1;  
+  utterance.voice = voices[4];  // compare 2 and 4
   speechSynthesis.speak(utterance);
 
   // Stop the audio when the speech ends
@@ -354,19 +336,16 @@ function makeSpeech(text) {
       console.error("Speech generation failed:", error);
       throw error; // Rethrow the error to propagate it further if needed
     });
+    
 }
 
 const STYLES = {
-  
   area: {
     position: "absolute",
     top: "20px",
     left: "10px",
     zIndex: 500,
     width: "50vw",
-    backgroundImage: 'url("client/src/assets/bg-image.jpg"")', // Background image URL
-    backgroundSize: "cover", // Adjust background size as needed
-    padding: "10px",
   },
   text: {
     margin: "0px",
@@ -432,11 +411,13 @@ const ChatBot = () => {
   const [imgSrc, setImgSrc] = useState(null);
   const imgRef = useRef();
   const start = () => {
+    console.log("Clicked Start")
     setRecordState(RecordState.START);
     SpeechRecognition.startListening();
   };
   
   const getResponse = async (message) => {
+    setInputText("");    
     await axios
       .post("http://localhost:5000/chatbot", {
         message:
@@ -450,9 +431,9 @@ const ChatBot = () => {
         setChats([
           ...chats,
           { role: "User", msg: message },
-          { role: "Companion", msg: res.data.answer[0] },
+          { role: "Mellisa", msg: res.data.answer[0] },
         ]);
-        setInputText(message);
+        
         setSpeak(true);
       });
   };
@@ -513,9 +494,10 @@ const ChatBot = () => {
 
   const stop = async () => {
     // setUserMessage(transcript);
+    console.log("Stop Clicked")
     setRecordState(RecordState.STOP);
     SpeechRecognition.stopListening();
-    console.log("u said",transcript);
+    console.log("You Said: ",transcript);
     setChats([...chats, { role: "User", msg: transcript }]);
     getResponse(transcript);
     // capture();
@@ -536,8 +518,9 @@ const ChatBot = () => {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
+  
   return (
-    <div className="w-full flex">
+    <div className=" flex w-3/4 overflow-hidden">
       <div className="w-0 h-0">
         <AudioReactRecorder state={recordState} onStop={onStop} />
       </div>
@@ -547,10 +530,10 @@ const ChatBot = () => {
           <BiSolidUser size={30} />
         </div>
       </div>
-      <div className="relative w-[50vw]">
+      <div className="relative">
         <div
           style={STYLES.area}
-          className="flex flex-col justify-between h-[90vh]"
+          className="flex flex-col justify-between h-2/3"
         >
           <div
             className={`max-w-[350px] ${
@@ -579,31 +562,37 @@ const ChatBot = () => {
                 className="w-full outline-none"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    getResponse(inputText);
+                    setInputText('');
+                  }
+              }}
               />
               <button
-                onClick={() => {
-                  // console.log("Hello");
+                onClick={(e) => {
+                  console.log("Send clicked...")
                   getResponse(inputText);
+                  setInputText('');
                 }}
               >
                 <AiOutlineSend className="ml-4" size={25} />
               </button>
             </div>
           </div>
-          <button
-            onClick={() => setChat((prev) => !prev)}
-            className="bg-teal-200 p-2 rounded text-lg w-[100px] mb-6"
-          >
-            Chat
-          </button>
-          <div className="flex flex-col">
-            <p className="text-md text-white mb-2">{transcript}</p>
-            <div className="flex flex-row">
+          <div className="w-screen flex flex-row gap-3">
+            <div
+              onClick={() => setChat((prev) => !prev)}
+              className= {`bg-teal-200 rounded-full h-14 w-14 m-2 mb-5 flex items-center justify-center  hover:scale-110 duration-300 `}>
+              
+              <ChatBotIcon />
+            </div>
+            <div className="bottom-1 w-full justify-center gap-x-12 flex">
               <button
-                className="bg-teal-200 p-2 rounded text-lg w-[100px]"
+                className="bg-green-400 shadow-lg rounded-full h-14 w-14 m-2 mb-5 flex items-center justify-center py-4 hover:scale-110 duration-300"
                 onClick={start}
               >
-                Start
+                <StartCallIcon />
               </button>
 
               <Webcam
@@ -616,12 +605,12 @@ const ChatBot = () => {
               >
                 {({ getScreenshot }) => (
                   <button
-                    className="bg-red-200 p-2 rounded text-lg w-[100px] ml-4"
+                    className="bg-red-400 rounded-full shadow-lg h-14 w-14 m-2 mb-5 flex items-center justify-center py-4 hover:scale-110 duration-300"
                     onClick={() => {
                       stop();
                     }}
                   >
-                    Stop
+                    <EndCallIcon />
                   </button>
                 )}
               </Webcam>
@@ -638,13 +627,6 @@ const ChatBot = () => {
         </div>
 
         {/* <Stats /> */}
-        <div
-                style={{
-                  backgroundImage: 'url("client/src/assets/bg-image.jpg")',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
         <div className="w-[83vw]">
           <Canvas
             dpr={2}
@@ -666,10 +648,6 @@ const ChatBot = () => {
               <Environment
                 background={true}
                 files="/images/photo_studio_loft_hall_1k.hdr"
-                // preset="studio" // Preset for lighting and fog (optional)
-                intensity={1} // Intensity of the environment map (default is 1)
-                backgroundOpacity={1} // Opacity of the background (default is 1)
-                shadow={false}
               />
             </Suspense>
 
@@ -678,19 +656,16 @@ const ChatBot = () => {
             </Suspense>
 
             <Suspense fallback={null}>
-            
-                <Avatar
-                  avatar_url="/model.glb"
-                  speak={speak}
-                  setSpeak={setSpeak}
-                  text={text}
-                  setAudioSource={setAudioSource}
-                  playing={playing}
-                />
-              
+              <Avatar
+                avatar_url="/model.glb"
+                speak={speak}
+                setSpeak={setSpeak}
+                text={text}
+                setAudioSource={setAudioSource}
+                playing={playing}
+              />
             </Suspense>
           </Canvas>
-        </div>
         </div>
         <Loader dataInterpolation={(p) => `Loading... please wait`} />
       </div>
@@ -699,9 +674,7 @@ const ChatBot = () => {
 };
 
 function Bg() {
-const texture = useTexture("/images/bg.jpg");
-texture.minFilter = THREE.LinearFilter; // or THREE.NearestFilter
-texture.magFilter = THREE.LinearFilter;
+  const texture = useTexture("/images/bg.webp");
 
   return (
     <mesh position={[0, 1.5, -2]} scale={[0.9, 0.8, 0.9]}>
