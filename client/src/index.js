@@ -14,6 +14,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import Quiz from "./pages/Quiz/Quiz";
 import Awards from "./pages/Awards/Awards";
 import MalChat from "./pages/Chat/MalChat";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -66,7 +67,8 @@ const router = createBrowserRouter([
 ]);
 ReactDOM.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+   <RouterProvider router={router} />
+
   </React.StrictMode>,
   document.getElementById("root")
 );

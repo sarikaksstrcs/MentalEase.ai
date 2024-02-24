@@ -113,15 +113,15 @@ const Plans = () => {
   //   setData(res.data);
   // };
   return (
-    <div className="flex flex-row">
+    <div className="flex">
       <Navbar />
-      <div className="w-full">
-        <div className="flex flex-row items-center p-6 bg-teal-100  h-fit shadow-lg">
+      <div className="w-3/4 h-screen overflow-auto">
+        <div className="flex  items-center p-6 bg-sky-200  h-fit shadow-lg">
           <h1 className="ml-4 text-3xl font-semibold text-teal-800">
             Personalized Plans!
           </h1>
         </div>
-        <div className="p-4">
+        <div className="p-4 ">
           <h1 className="font-semibold text-2xl mb-4 mt-4">
             A place to find videos curated just for you!
           </h1>
@@ -129,9 +129,9 @@ const Plans = () => {
             <h1 className="text-lg font-semibold mb-3">Your progress: </h1>
             <ProgressBar completed={count * 10} />
           </div>
-          <div className="flex flex-row flex-wrap justify-evenly gap-6">
+          <div className="flex flex-wrap justify-evenly gap-2 ">
             {data?.length === 0 ? (
-              <div role="status">
+              <div role="status" > 
                 <svg
                   aria-hidden="true"
                   class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -192,4 +192,6 @@ const Plans = () => {
   );
 };
 
+
 export default Plans;
+

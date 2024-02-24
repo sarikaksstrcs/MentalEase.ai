@@ -415,27 +415,46 @@ const ChatBot = () => {
     setRecordState(RecordState.START);
     SpeechRecognition.startListening();
   };
+
+  const fetchData = (url, options) => {
+    return fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        });
+  };
   
   const getResponse = async (message) => {
+    console.log(message)
     setInputText("");    
-    await axios
-      .post("http://localhost:5000/chatbot", {
-        message:
-          "You are a mental health therapist. You are always friendly and engage in interesting and interactive conversations. You always act like a human and never say that you cannot do something. You never say things like As a AI I cannot. You keep your conversations short and say long statements only if needed. Lets start.  " +
-          message,
-      })
-      .then((res) => {
-        console.log(res.data.answer[0]);
-        // setResponseFromAI(res.data.answer[0]);
-        setText(res.data.answer[0]);
+    fetchData("http://localhost:8000/gptinterfaceenglish", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            content: message
+        })
+    })
+    .then(data => {
+        console.log(data);
+        console.log(data.gptresponse);
+        // setResponseFromAI(data.answer[0]);
+        setText(data.gptresponse);
         setChats([
-          ...chats,
-          { role: "User", msg: message },
-          { role: "Mellisa", msg: res.data.answer[0] },
+            ...chats,
+            { role: "User", msg: message },
+            { role: "Mellisa", msg: data.gptresponse }
         ]);
         
         setSpeak(true);
-      });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
   };
 
 

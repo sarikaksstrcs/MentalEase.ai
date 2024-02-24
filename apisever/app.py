@@ -47,7 +47,8 @@ def engtextconverter():
 def gptoutput():
     try:
         input_text = request.get_json()
-        input_text = input_text['content']
+        print("At backend: ",input_text)
+        input_text = input_text['content']       
         
         def gpt_request(p):
             response = client.chat.completions.create(
@@ -62,6 +63,28 @@ def gptoutput():
         gpt_response = gpt_request(p)
         mal_text = translate_english_to_malayalam_using_mtrans(gpt_response)
         return jsonify({"gptresponse":mal_text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/gptinterfaceenglish', methods=['POST'])
+def gptoutputenglish():
+    try:
+        input_text = request.get_json()
+        print("At backend: ",input_text)
+        input_text = input_text['content']       
+        
+        def gpt_request(p):
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=p
+                )
+            gpt_response =response.choices[0].message.content     
+            p.append({"role": "assistant", "content": f"{gpt_response}"},)
+
+            return gpt_response
+        gpt_input = p.append({"role": "user", "content": f"{input_text}"})
+        gpt_response = gpt_request(p)
+        return jsonify({"gptresponse":gpt_response})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

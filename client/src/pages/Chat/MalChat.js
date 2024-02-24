@@ -154,7 +154,7 @@ const MalChat = () => {
                 </div>
 
                 <div className="flex w-full justify-center mt-2">
-                <div className={`cursor-pointer bg-rose-600 rounded-full w-14  h-14 flex justify-center items-center shadow-2xl ${isFetching ? 'animate-ping-slow' : ''} hover:scale-110 duration-300 `}  onClick={handleClick}>
+                <div className={`cursor-pointer bg-rose-600 rounded-full w-14  h-14 flex justify-center items-center shadow-2xl ${isFetching ? 'animate-ping 3s scale-50' : ''} hover:scale-110 duration-300 `}  onClick={handleClick}>
                         <MicIcon />
                  </div>
                 </div>

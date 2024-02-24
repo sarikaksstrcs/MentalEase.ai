@@ -24,36 +24,36 @@ const navigations = [
     Icon: ({ color }) => <MalChatIcon />
   ,
   },
-  {
-    id: 2,
-    name: "Plans",
-    path: "/plans",
-    Icon: ({ color }) => <PlanIcon color= {color}/>,
-  },
-  {
-    id: 3,
-    name: "Reports",
-    path: "/reports",
-    Icon: ({ color }) => <ReportIcon color= {color}/>,
-  },
-  {
-    id: 4,
-    name: "Search Doctors",
-    path: "/search-doctors",
-    Icon: ({ color }) => <SearchIcon />,
-  },
-  {
-    id: 5,
-    path: "/diet-plan",
-    name: "Diet Plan",
-    Icon: ({ color }) => <MdOutlineFoodBank size={30} className="font-light " />,
-  },
-  {
-    id: 6,
-    path: "/chat",
-    name: "Support Group",
-    Icon: ({ color }) => <GroupIcon />
-  },
+  // {
+  //   id: 2,
+  //   name: "Plans",
+  //   path: "/plans",
+  //   Icon: ({ color }) => <PlanIcon color= {color}/>,
+  // },
+  // {
+  //   id: 3,
+  //   name: "Reports",
+  //   path: "/reports",
+  //   Icon: ({ color }) => <ReportIcon color= {color}/>,
+  // },
+  // {
+  //   id: 4,
+  //   name: "Search Doctors",
+  //   path: "/search-doctors",
+  //   Icon: ({ color }) => <SearchIcon />,
+  // },
+  // {
+  //   id: 5,
+  //   path: "/diet-plan",
+  //   name: "Diet Plan",
+  //   Icon: ({ color }) => <MdOutlineFoodBank size={30} className="font-light " />,
+  // },
+  // {
+  //   id: 6,
+  //   path: "/chat",
+  //   name: "Support Group",
+  //   Icon: ({ color }) => <GroupIcon />
+  // },
   // {
   //   id: 8,
   //   path: "/rewards",
