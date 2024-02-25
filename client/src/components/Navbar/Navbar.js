@@ -71,7 +71,10 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    // console.log(location.pathname);
+    const token = localStorage.getItem("token")
+    if (!token) {
+      navigate("/")
+    }
   }, [location]);
   const logout = () => {
     console.log("Logging out...");
