@@ -74,10 +74,17 @@ const Navbar = () => {
     // console.log(location.pathname);
   }, [location]);
   const logout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    navigate("/")
-  }
+    console.log("Logging out...");
+    localStorage.removeItem("token");
+    console.log("Token removed from localStorage");
+    localStorage.removeItem("user");
+    console.log("User removed from localStorage");
+    localStorage.removeItem('chats');
+    console.log("Chats removed from localStorage");
+    navigate("/");
+    console.log("Navigated to /");
+};
+
   return (
     <div className="py-6 px-4 h-screen overflow-y-auto w-1/4 shadow-lg">
       <ToastContainer />
@@ -118,7 +125,7 @@ const Navbar = () => {
             </Link>
           ))}
         </div>
-        <button onClick={() => logout()}>
+        <button onClick={() => logout()} >
           <div className="flex flex-row items-center py-4 px-2 rounded-md text-red-500">
             <BiLogOut size={25} className="text-red-500" />
             <h1

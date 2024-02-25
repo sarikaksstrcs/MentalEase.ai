@@ -427,8 +427,10 @@ const ChatBot = () => {
   };
   
   const getResponse = async (message) => {
-    console.log(message)
-    setInputText("");    
+    console.log(message);
+    setInputText("");
+
+    // Fetch data from the server
     fetchData("http://localhost:8000/gptinterfaceenglish", {
         method: 'POST',
         headers: {
@@ -443,72 +445,37 @@ const ChatBot = () => {
         console.log(data.gptresponse);
         // setResponseFromAI(data.answer[0]);
         setText(data.gptresponse);
-        setChats([
+
+        // Update chats state
+        const updatedChats = [
             ...chats,
             { role: "User", msg: message },
             { role: "Mellisa", msg: data.gptresponse }
-        ]);
-        
+        ];
+        setChats(updatedChats);
+
+        // Store chats in local storage
+        localStorage.setItem('chats', JSON.stringify(updatedChats));
+
         setSpeak(true);
     })
     .catch(error => {
         console.error('Error:', error);
     });
+};
 
-  };
+// Load chats from local storage on component mount
+useEffect(() => {
+    const storedChats = localStorage.getItem('chats');
+    if (storedChats) {
+        setChats(JSON.parse(storedChats));
+    }
+}, []);
 
-
-  // const getResponse = async (message) => {
-  //   try {
-  //     const response = await fetch('http://localhost:5000/botResponse', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         // messages: [
-  //         //   { role: 'system', content: 'Reply in maximum of 10 words always.' },
-  //         //   { role: 'user', content: message },
-  //         // ],
-  //         // temperature: 0.7,
-  //         // max_tokens: -1,
-  //         // stream: false,
-  //           "prompt": message,
-  //           "system_prompt": "You are a human mental health therapist.",
-  //           "max_new_tokens": 256
-  //       }),
-  //     });
-  
-  //     if (!response.ok) {
-  //       throw new Error('Unexpected response from the server.');
-  //     }
-  
-  //     const data = await response.json();
-  //     const choices = data.output;
-  
-  //     if (choices && choices.length > 0) {
-  //       const botMessage = choices
-  //       // console.log(botMessage)
-  //       // Assuming setResponseFromAI is a function to set the response
-  //       // setResponseFromAI(botMessage);
-  
-  //       // Assuming setText, setChats, setInputText, and setSpeak are functions to update the state in your React component
-  //       setText(botMessage);
-  //       setChats([
-  //         ...chats,
-  //         { role: 'User', msg: message },
-  //         { role: 'Companion', msg: botMessage },
-  //       ]);
-  //       setInputText('');
-  //       setSpeak(true);
-  //     } else {
-  //       console.error('Error: Unexpected response from the server.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // };
-  
+// Use useEffect to update local storage whenever chats change
+useEffect(() => {
+    localStorage.setItem('chats', JSON.stringify(chats));
+}, [chats]);
 
 
   const stop = async () => {
