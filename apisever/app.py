@@ -66,6 +66,31 @@ def gptoutput():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+@app.route('/maltextResponse', methods=['POST'])
+def maltextResponse():
+    try:        
+        def gpt_request(p):
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=p
+                )
+            gpt_response =response.choices[0].message.content     
+            p.append({"role": "assistant", "content": f"{gpt_response}"},)
+
+            return gpt_response
+        maltext = request.get_json()
+        maltext = maltext['content']
+        english_text = translate_malayalam_to_english(maltext)
+        print(english_text)
+        p.append({"role": "user", "content": f"{english_text}"})
+        gpt_response = gpt_request(p)
+        print(gpt_response)
+        mal_text = translate_english_to_malayalam_using_mtrans(gpt_response)
+        print(jsonify({"gptresponse":mal_text}))
+        return jsonify({"gptresponse":mal_text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 @app.route('/gptinterfaceenglish', methods=['POST'])
 def gptoutputenglish():
     try:

@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import ChatHeader from "../../components/MalayalamChat/ChatHeader";
 import { MicIcon,SendIcon} from "../../components/Icons/Icons";
 
+
 const MalChat = () => {
     const [responseText, setResponseText] = useState('');
     const [englishText, setEnglishText] = useState('')
@@ -28,13 +29,16 @@ const MalChat = () => {
     const handleSend = async() =>{
         console.log("send Clicked")
         setResponseText(malInput)
+        console.log(malInput)
         setMalInput("")
         fetchData('http://127.0.0.1:8000/maltextResponse', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ content: malInput })
+            body: JSON.stringify({
+                content: malInput
+            })
         })
         .then(gptout => {
             // const { gptresponse } = data;
