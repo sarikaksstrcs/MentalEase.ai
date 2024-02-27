@@ -6,6 +6,25 @@ from translator import translate_malayalam_to_english, translate_english_to_mala
 from malayalam_text_to_speech_web import text_to_speech
 from openai import OpenAI
 
+import pickle
+import torch
+import numpy as np
+from transformers import BertTokenizer
+
+from Sentiment_Analysis import preprocessing,predict
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+tokenizer = BertTokenizer.from_pretrained(
+    'bert-base-uncased',
+    do_lower_case = True
+    )
+
+with open('apisever\Models\mental-model.pkl', 'rb') as model_file:
+    model = pickle.load(model_file)
+    
+token_id = []
+attention_masks = []
+
 app = Flask(__name__)
 CORS(app)
 
@@ -15,6 +34,15 @@ api_key='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',
 
 name = None
 p = [{"role": "system", "content": "You are a mental health therapist named mellisa. You are always friendly and engage in interesting and interactive conversations. You always act like a human and never say that you cannot do something. You never say things like As a AI I cannot. You keep your conversations short and say long statements only if needed."}]
+
+@app.route('/predict', methods=['POST'])
+def predict_route():
+    data = request.get_json()
+    new_sentence = data['sentence']
+    prediction = predict(new_sentence,model,tokenizer)
+    print(prediction)
+    return jsonify({"prediction": prediction})
+
 
 @app.route('/malaudiotoengtext', methods=['POST'])
 def malaudioconverter():
