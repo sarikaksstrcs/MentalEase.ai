@@ -1,2 +1,4 @@
 apisever/Models/mental-model.pkl
+apisever/Models/condition-model.pkl
+
 client/.env

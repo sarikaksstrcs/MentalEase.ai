@@ -50,6 +50,31 @@ def predict(sentence,model,tokenizer):
   print('Input Sentence: ', sentence)
   return prediction
 
+def ismental(sentence,model,tokenizer):
+  test_ids = []
+  test_attention_mask = []
+
+  # Apply tokenizer
+  encoding = preprocessing(sentence, tokenizer)
+
+  # Extract IDs & Attention Mask
+  test_ids.append(encoding['input_ids'])
+  test_attention_mask.append(encoding['attention_mask'])
+  test_ids = torch.cat(test_ids, dim = 0)
+  test_attention_mask = torch.cat(test_attention_mask, dim = 0)
+
+  # Forward pass, predictions
+  with torch.no_grad():
+    output = model(test_ids.to(device), token_type_ids = None, attention_mask = test_attention_mask.to(device))
+
+  x = np.argmax(output.logits.cpu().numpy()).flatten().item()
+  print(x)
+
+  if x==0:
+    return False
+  if x==1:
+    return True
+  
 
 def main():
   tokenizer = BertTokenizer.from_pretrained(

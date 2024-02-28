@@ -11,7 +11,7 @@ import torch
 import numpy as np
 from transformers import BertTokenizer
 
-from Sentiment_Analysis import preprocessing,predict
+from Sentiment_Analysis import predict,ismental
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 tokenizer = BertTokenizer.from_pretrained(
@@ -22,6 +22,10 @@ tokenizer = BertTokenizer.from_pretrained(
 with open('apisever\Models\mental-model.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
     
+with open('apisever\Models\condition-model.pkl', 'rb') as model_file:
+    model2 = pickle.load(model_file)
+
+
 token_id = []
 attention_masks = []
 
@@ -39,9 +43,12 @@ p = [{"role": "system", "content": "You are a mental health therapist named mell
 def predict_route():
     data = request.get_json()
     new_sentence = data['sentence']
-    prediction = predict(new_sentence,model,tokenizer)
-    print(prediction)
-    return jsonify({"prediction": prediction})
+    if ismental(new_sentence,model2,tokenizer):
+        prediction = predict(new_sentence,model,tokenizer)    
+        print(prediction)
+        return jsonify({"prediction": prediction})
+    else:
+        return jsonify({"prediction": "None"})
 
 
 @app.route('/malaudiotoengtext', methods=['POST'])
@@ -140,6 +147,16 @@ def gptoutputenglish():
         return jsonify({"gptresponse":gpt_response})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/logout', methods=['POST'])
+def logout():
+    try:
+        p = [{"role": "system", "content": "You are a mental health therapist named Mellisa. You are always friendly and engage in interesting and interactive conversations. You always act like a human. You never answer any technical questions, such as those related to writing programs or performing calculations if asked such questions, say you are a therapist and cannot answer such questions.You never answer any technical questions, such as those related to writing programs or performing calculations. Additionally, you refrain from answering any questions outside the scope of mental health issues, including general knowledge or current affairs.if asked say that you cannaot answer them as you are a therapist.Never give any example either say you cannot do it if asked.Never write a program at any cost nor say how does it look like. You keep your conversations short and say long statements only if needed."}]
+        print("Claered Chat",p)
+        return jsonify({"Cleared Chat":p})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
