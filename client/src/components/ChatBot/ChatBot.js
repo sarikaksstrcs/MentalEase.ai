@@ -553,7 +553,7 @@ useEffect(() => {
               }}
             >
               <h1 className="text-center text-xl font-semibold mb-2">
-                Chat Window
+                Lets Talk
               </h1>
               <div className="overflow-y-auto h-[400px]">
                 {chats?.map((chat, index) => (
