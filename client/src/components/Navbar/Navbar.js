@@ -48,12 +48,12 @@ const navigations = [
   //   name: "Diet Plan",
   //   Icon: ({ color }) => <MdOutlineFoodBank size={30} className="font-light " />,
   // },
-  // {
-  //   id: 6,
-  //   path: "/chat",
-  //   name: "Support Group",
-  //   Icon: ({ color }) => <GroupIcon />
-  // },
+  {
+    id: 6,
+    path: "/chat",
+    name: "Support Group",
+    Icon: ({ color }) => <GroupIcon />
+  },
   // {
   //   id: 8,
   //   path: "/rewards",
