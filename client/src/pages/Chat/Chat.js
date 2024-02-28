@@ -68,12 +68,12 @@ const Chat = () => {
     <div className="flex">
       <Navbar/>
       <div className="w-3/4 m-0  h-screen overflow-clip">
-        <div className="flex flex-row items-center px-6 py-4 bg-teal-100 w-full h-fit shadow-lg">
+        <div className="flex flex-row items-center px-6 py-4 bg-gradient-to-r via-blue-200 to-blue-400 from-sky-300 w-full h-fit shadow-lg">
           <h1 className="ml-4 text-3xl font-semibold text-teal-800 ">
             Support Group
           </h1>
         </div>
-        <div className="flex flex-col px-4 py-1 h-[470px]  overflow-scroll ">
+        <div className="flex flex-col px-4 py-1 h-[470px]  overflow-y-auto ">
           {messages?.map((message) => (
             <div
               key={message?.id}
@@ -90,10 +90,10 @@ const Chat = () => {
               ) : null}
 
               <div
-                className={`mb-4 ml-8 px-4 py-2 rounded-lg max-w-[350px] ${
+                className={`mb-4 ml-8 px-4 py-2 rounded-b-lg  max-w-[350px] ${
                   message?.username === username
-                    ? "self-end bg-teal-200 text-teal-800"
-                    : "bg-white shadow w-fit text-gray-700"
+                    ? "self-end bg-sky-200 text-teal-800 rounded-tl-lg"
+                    : "bg-white shadow-lg   w-fit text-gray-700 rounded-tr-lg"
                 } `}
               >
                 <h1 className="text-xl font-semibold">{message?.message}</h1>
