@@ -504,6 +504,26 @@ useEffect(() => {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
+
+
+  const clearChat = () =>{
+    fetchData("http://localhost:8000/logout", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(data => {
+        console.log(data);
+        localStorage.removeItem('chats');
+        console.log("Chats removed from localStorage");  
+        window.location.reload();   
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+  }
+  
   
   return (
     <div className=" flex w-3/4 overflow-hidden">
@@ -527,7 +547,7 @@ useEffect(() => {
             } flex flex-col mb-16 min-h-[450px]`}
           >
             <div
-              className="bg-sky-50 max-w-[350px] flex flex-col p-4 min-h-[450px] max-h-[450px] overflow-y-auto"
+              className="bg-sky-50 max-w-[350px] flex flex-col pt-2 pb-1 pl-2 min-h-[460px] max-h-[460px] "
               style={{
                 zIndex: 1000,
               }}
@@ -535,11 +555,18 @@ useEffect(() => {
               <h1 className="text-center text-xl font-semibold mb-2">
                 Chat Window
               </h1>
-              {chats?.map((chat, index) => (
-                <h1 key={index} className="text-lg">
-                  <span className="font-semibold">{chat.role}</span> : {chat.msg}
-                </h1>
-              ))}
+              <div className="overflow-y-auto h-[400px]">
+                {chats?.map((chat, index) => (
+                  <h1 key={index} className="text-lg">
+                    <span className="font-semibold">{chat.role}</span> : {chat.msg}
+                  </h1>
+                ))}
+              </div>
+              <div onClick={clearChat} className="bg-blue-400 opacity-90 rounded-md text-center font-semibold shadow-md cursor-pointer 
+                                                  object-right-bottom mt-1 mx-2 px-2 py-1 w-26 h-8 
+                                                  place-self-end flex place-content-center ">
+                Clear Chat
+              </div>
             </div>
             <div className="mt-4 bg-white flex flex-row p-2 rounded">
               <input
