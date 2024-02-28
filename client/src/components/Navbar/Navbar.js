@@ -36,12 +36,12 @@ const navigations = [
   //   path: "/reports",
   //   Icon: ({ color }) => <ReportIcon color= {color}/>,
   // },
-  {
-    id: 4,
-    name: "Search Doctors",
-    path: "/search-doctors",
-    Icon: ({ color }) => <SearchIcon />,
-  },
+  // {
+  //   id: 4,
+  //   name: "Search Doctors",
+  //   path: "/search-doctors",
+  //   Icon: ({ color }) => <SearchIcon />,
+  // },
   // {
   //   id: 5,
   //   path: "/diet-plan",
