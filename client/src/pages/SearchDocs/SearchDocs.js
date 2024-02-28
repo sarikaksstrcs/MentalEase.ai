@@ -75,9 +75,9 @@ const SearchDocs = () => {
   }, [lng, lat]);
 
   return (
-    <div className="flex flex-row">
+    <div className="flex">
       <Navbar />
-      <div className="w-full">
+      <div className="w-3/4">
         <div className="flex flex-row items-center p-6 bg-teal-100  h-fit shadow-lg">
           <h1 className="ml-4 text-3xl font-semibold text-teal-800">
             Recommended Doctors
