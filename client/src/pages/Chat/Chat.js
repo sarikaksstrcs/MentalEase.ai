@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { AiOutlineSend } from "react-icons/ai";
 import { db } from "../../firbase";
@@ -11,12 +11,28 @@ import {
   onSnapshot,
   limit,
 } from "firebase/firestore";
+import { SendIcon } from "../../components/Icons/Icons";
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+
+  const messagesEndRef = useRef(null);
+
+
   const userData = localStorage.getItem("data"); 
   const username = JSON.parse(userData).name;
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+
   const sendMessage = async () => {
+    
     console.log("Hello");
     console.log(username); 
     
@@ -44,23 +60,20 @@ const Chat = () => {
       console.log(sortedMessages);
       setMessages(sortedMessages);
     });
-
+   
     return () => unsubscribe;
+    
   }, []);
   return (
-    <div className="flex flex-row w-full">
-      <Navbar />
-      <div className="w-full relative">
+    <div className="flex">
+      <Navbar/>
+      <div className="w-3/4 m-0  h-screen overflow-clip">
         <div className="flex flex-row items-center px-6 py-4 bg-teal-100 w-full h-fit shadow-lg">
-          <img
-            src="https://jagwire.augusta.edu/wp-content/uploads/sites/15/2022/11/group.jpg"
-            className="w-[65px] h-[65px] rounded-full object-cover"
-          />
-          <h1 className="ml-4 text-3xl font-semibold text-teal-800">
+          <h1 className="ml-4 text-3xl font-semibold text-teal-800 ">
             Support Group
           </h1>
         </div>
-        <div className="flex flex-col p-4 ">
+        <div className="flex flex-col px-4 py-1 h-[470px]  overflow-scroll ">
           {messages?.map((message) => (
             <div
               key={message?.id}
@@ -77,7 +90,7 @@ const Chat = () => {
               ) : null}
 
               <div
-                className={`mb-4 ml-8 px-4 py-3 rounded-lg max-w-[350px] ${
+                className={`mb-4 ml-8 px-4 py-2 rounded-lg max-w-[350px] ${
                   message?.username === username
                     ? "self-end bg-teal-200 text-teal-800"
                     : "bg-white shadow w-fit text-gray-700"
@@ -87,8 +100,10 @@ const Chat = () => {
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef}> </div>
         </div>
-        <div className="absolute bottom-4 p-4 px-8 w-full flex flex-row items-center">
+        
+        <div className="bottom-4 pt-1 px-8 w-full flex flex-row items-center">
           <div className="p-2 w-full border-2 border-gray-200 shadow-md rounded">
             <input
               type="text"
@@ -96,11 +111,22 @@ const Chat = () => {
               placeholder="Enter message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  sendMessage();
+                  scrollToBottom();
+                }
+              }}
             />
           </div>
-          <button className="ml-4 cursor-pointer">
-            <AiOutlineSend onClick={() => sendMessage()} size={30} />
-          </button>
+          
+          <div className="ml-4 cursor-pointer" 
+                onClick = {(e)=>{
+                  sendMessage();
+                  scrollToBottom();
+                }} >
+           <SendIcon />
+          </div>
         </div>
       </div>
     </div>
