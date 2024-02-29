@@ -73,9 +73,42 @@ const SearchDocs = () => {
       .addTo(map.current);
 
     mapContainer.current.scrollIntoView({ behavior: "smooth" });
+
+    console.log('loading');
+    // make an initial directions request that
+    // starts and ends at the same location
+    await getRoute([lng,lat],[coordinates[0],coordinates[1]]);
+
+  
+    // Add starting point to the map
+    map.current.addLayer({
+      id: 'point',
+      type: 'circle',
+      source: {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'Point',
+                coordinates: [lng,lat]
+              }
+            }
+          ]
+        }
+      },
+      paint: {
+        'circle-radius': 10,
+        'circle-color': '#3887be'
+      }
+    });
   };
 
   async function getRoute(start, end) {
+    console.log('Getting route');
     // make a directions request using cycling profile
     // an arbitrary start will always be the same
     // only the end or destination will change
@@ -96,12 +129,12 @@ const SearchDocs = () => {
       }
     };
     // if the route already exists on the map, we'll reset it using setData
-    if (map.getSource('route')) {
-      map.getSource('route').setData(geojson);
+    if (map.current.getSource('route')) {
+      map.current.getSource('route').setData(geojson);
     }
     // otherwise, we'll make a new request
     else {
-      map.addLayer({
+      map.current.addLayer({
         id: 'route',
         type: 'line',
         source: {
@@ -216,40 +249,6 @@ const SearchDocs = () => {
       setLng(map.current.getCenter().lng.toFixed(4));
       setLat(map.current.getCenter().lat.toFixed(4));
       setZoom(map.current.getZoom().toFixed(2));
-    });
-
-    map.on('load', async () => {
-      // make an initial directions request that
-      // starts and ends at the same location
-      await getRoute([lng,lat],[coordinates[0],coordinates[1]]);
-  
-    
-      // Add starting point to the map
-      map.addLayer({
-        id: 'point',
-        type: 'circle',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: {},
-                geometry: {
-                  type: 'Point',
-                  coordinates: [lng,lat]
-                }
-              }
-            ]
-          }
-        },
-        paint: {
-          'circle-radius': 10,
-          'circle-color': '#3887be'
-        }
-      });
-      // this is where the code from the next step will go
     });
   
   }, [lng, lat]);
