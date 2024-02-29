@@ -30,25 +30,36 @@ const SearchDocs = () => {
     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     setLat(latitude);
     setLng(longitude);
-    getDoctors();
+    getDoctors(latitude, longitude); // Call getDoctors with updated latitude and longitude
   }
-
+  
   function error() {
     console.log("Unable to retrieve your location");
-    getDoctors();
+    getDoctors(); // You may handle the error case differently
   }
-
-  const getDoctors = async () => {
-    const url = `https://api.mapbox.com/search/searchbox/v1/suggest?q=psychiatris&language=en&proximity=${lng},${lat}&session_token=02dcad2a-1890-4bc1-88ae-83109b80c3a9&access_token=${API_TOKEN}`;
-    const result = await axios.get(url);
-    console.log(result.data);
-    setDoctors(result.data.suggestions);
+  
+  const getDoctors = async (latitude, longitude) => {
+    const url = `https://api.mapbox.com/search/searchbox/v1/suggest?q=psychiatrist&language=en&proximity=${longitude},${latitude}&session_token=02dcad2a-1890-4bc1-88ae-83109b80c3a9&access_token=${API_TOKEN}`;
+    try {
+      const result = await axios.get(url);
+      console.log(result.data);
+      setDoctors(result.data.suggestions.slice(0, 3));
+    } catch (error) {
+      console.error("Error fetching doctors:", error);
+    }
   };
+  
+  // Use useEffect to log doctors whenever it changes
+  useEffect(() => {
+    console.log("Doctors:", doctors);
+  }, [doctors]);
+  
   const map = useRef(null);
   const mapContainer = useRef(null);
 
   const fetchLocation = async (map_id) => {
     const url = `https://api.mapbox.com/search/searchbox/v1/retrieve/${map_id}?session_token=0dca88fe-dac2-4f31-88ae-83ccd8a0b719&access_token=${API_TOKEN}`;
+    console.log("Url",url)
     const result = await axios.get(url);
     console.log(result.data.features[0].geometry.coordinates);
     new mapboxgl.Marker()
