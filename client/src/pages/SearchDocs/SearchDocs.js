@@ -147,7 +147,7 @@ const SearchDocs = () => {
             'line-cap': 'round'
           },
           paint: {
-            'line-color': '#3887be',
+            'line-color': '#00CED1',
             'line-width': 5,
             'line-opacity': 0.75
           }
@@ -319,6 +319,7 @@ const SearchDocs = () => {
         </div>
 
         <div ref={mapContainer} className="h-[400px]" />
+        
       </div>
     </div>
   );
