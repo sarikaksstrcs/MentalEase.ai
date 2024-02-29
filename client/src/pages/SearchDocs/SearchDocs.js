@@ -268,7 +268,7 @@ const SearchDocs = () => {
   return (
     <div className="flex">
       <Navbar />
-      <div className="w-3/4">
+      <div className="w-3/4 overflow-auto">
         <div className="flex flex-row items-center p-6 bg-teal-100  h-fit shadow-lg">
           <h1 className="ml-4 text-3xl font-semibold text-teal-800">
             Recommended Doctors
@@ -326,7 +326,7 @@ const SearchDocs = () => {
 
         <div className="relative">
           <div ref={mapContainer} className="h-[400px]" />
-          <div className="bg-sky-100 opacity-75 w-1/3 absolute rounded-md m-4 shadow-lg top-0 h-[350px] overflow-auto">
+          <div className="bg-sky-200 ml-5 opacity-75 w-1/3 absolute rounded-md m-4 shadow-lg top-0 h-[350px] overflow-auto">
             <h1 className="font-bold flex justify-center m-4">Travel Route</h1>
             <ul>
               {summary?.map((doc) => (<li>{doc.maneuver.instruction}</li>))}
