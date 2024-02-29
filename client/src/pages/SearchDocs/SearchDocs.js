@@ -13,6 +13,8 @@ const SearchDocs = () => {
   const [lng, setLng] = useState(76.830293);
   const [lat, setLat] = useState(8.696459);
   const [zoom, setZoom] = useState(9);
+
+  const [summary,setSummary] = useState([])
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error);
@@ -41,7 +43,7 @@ const SearchDocs = () => {
   }
   
   const getDoctors = async (latitude, longitude) => {
-    const url = `https://api.mapbox.com/search/searchbox/v1/suggest?q=psychiatrist&language=en&proximity=${longitude},${latitude}&session_token=02dcad2a-1890-4bc1-88ae-83109b80c3a9&access_token=${API_TOKEN}`;
+    const url = `https://api.mapbox.com/search/searchbox/v1/suggest?q=mental&language=en&proximity=${longitude},${latitude}&session_token=02dcad2a-1890-4bc1-88ae-83109b80c3a9&access_token=${API_TOKEN}`;
     try {
       const result = await axios.get(url);
       console.log(result.data);
@@ -55,7 +57,8 @@ const SearchDocs = () => {
   useEffect(() => {
     console.log("Doctors:", doctors);
     console.log("Hihi:", coordinates);
-  }, [doctors,coordinates]);
+    console.log(summary)
+  }, [doctors,coordinates,summary]);
   
   const map = useRef(null);
   const mapContainer = useRef(null);
@@ -120,6 +123,9 @@ const SearchDocs = () => {
       const json = await query.json();
       const data = json.routes[0];
       console.log(data);
+      console.log(data.legs[0].steps);
+
+      setSummary(data.legs[0].steps)
       const route = data.geometry.coordinates;
       const geojson = {
         type: 'Feature',
@@ -318,7 +324,16 @@ const SearchDocs = () => {
           </table>
         </div>
 
-        <div ref={mapContainer} className="h-[400px]" />
+        <div className="relative">
+          <div ref={mapContainer} className="h-[400px]" />
+          <div className="bg-gray-200 w-1/3 absolute rounded-md m-4 shadow-lg top-0 h-[350px] overflow-auto">
+            <h1 className="font-bold flex justify-center m-4">Travel Route</h1>
+            <ul>
+              {summary?.map((doc) => (<li>{doc.maneuver.instruction}</li>))}
+            </ul>
+          </div>
+        </div>
+        
         
       </div>
     </div>
