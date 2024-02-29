@@ -326,7 +326,7 @@ const SearchDocs = () => {
 
         <div className="relative">
           <div ref={mapContainer} className="h-[400px]" />
-          <div className="bg-gray-200 w-1/3 absolute rounded-md m-4 shadow-lg top-0 h-[350px] overflow-auto">
+          <div className="bg-sky-100 opacity-75 w-1/3 absolute rounded-md m-4 shadow-lg top-0 h-[350px] overflow-auto">
             <h1 className="font-bold flex justify-center m-4">Travel Route</h1>
             <ul>
               {summary?.map((doc) => (<li>{doc.maneuver.instruction}</li>))}
