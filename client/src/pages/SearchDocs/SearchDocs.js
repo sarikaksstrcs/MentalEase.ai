@@ -102,7 +102,7 @@ const SearchDocs = () => {
       },
       paint: {
         'circle-radius': 10,
-        'circle-color': '#3887be'
+        'circle-color': '#DC143C'
       }
     });
   };
