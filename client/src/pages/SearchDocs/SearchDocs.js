@@ -22,6 +22,8 @@ const SearchDocs = () => {
     
   }, []);
 
+
+  const[coordinates,setCoordinates] = useState([]);
   const [doctors, setDoctors] = useState([]);
 
   function success(position) {
@@ -52,7 +54,8 @@ const SearchDocs = () => {
   // Use useEffect to log doctors whenever it changes
   useEffect(() => {
     console.log("Doctors:", doctors);
-  }, [doctors]);
+    console.log("Hihi:", coordinates);
+  }, [doctors,coordinates]);
   
   const map = useRef(null);
   const mapContainer = useRef(null);
@@ -62,6 +65,9 @@ const SearchDocs = () => {
     console.log("Url",url)
     const result = await axios.get(url);
     console.log(result.data.features[0].geometry.coordinates);
+    setCoordinates(result.data.features[0].geometry.coordinates);
+
+    console.log("hoo",coordinates);
     new mapboxgl.Marker()
       .setLngLat(result.data.features[0].geometry.coordinates)
       .addTo(map.current);
@@ -69,6 +75,134 @@ const SearchDocs = () => {
     mapContainer.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  async function getRoute(start, end) {
+    // make a directions request using cycling profile
+    // an arbitrary start will always be the same
+    // only the end or destination will change
+    const query = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/cycling/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${API_TOKEN}`,
+      { method: 'GET' }
+    );
+    const json = await query.json();
+    const data = json.routes[0];
+    console.log(data);
+    const route = data.geometry.coordinates;
+    const geojson = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: route
+      }
+    };
+    // if the route already exists on the map, we'll reset it using setData
+    if (map.getSource('route')) {
+      map.getSource('route').setData(geojson);
+    }
+    // otherwise, we'll make a new request
+    else {
+      map.addLayer({
+        id: 'route',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: geojson
+        },
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#3887be',
+          'line-width': 5,
+          'line-opacity': 0.75
+        }
+      });
+    }
+    // add turn instructions here at the end
+  }
+
+  
+  const fetchDirection = async (latitude, longitude) => {
+    try {
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${lng},${lat};${latitude},${longitude}?geometries=geojson&access_token=${API_TOKEN}`;
+      
+      const result = await axios.get(url);
+
+      const data =  result.data.routes[0];
+
+      
+      const route = data.geometry.coordinates;
+      const geojson = {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates: route
+        }
+      };
+      if (map.getSource('route')) {
+      console.log('route');
+
+        map.getSource('route').setData(geojson);
+        map.addLayer({
+          id: 'point',
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  properties: {},
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [lat,lng]
+                  }
+                }
+              ]
+            }
+          },
+          paint: {
+            'circle-radius': 10,
+            'circle-color': '#3887be'
+          }
+        });
+      }
+      // otherwise, we'll make a new request
+      else {
+      console.log('no route');
+
+        map.addLayer({
+          id: 'route',
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: geojson
+          },
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          paint: {
+            'line-color': '#3887be',
+            'line-width': 5,
+            'line-opacity': 0.75
+          }
+        });
+    }
+    
+    } catch (error) {
+      console.error("Error fetching direction:", error);
+    }
+  };
+
+  
+
+  const handleClick = (map_id) =>{
+    fetchLocation(map_id)
+  }
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -83,6 +217,41 @@ const SearchDocs = () => {
       setLat(map.current.getCenter().lat.toFixed(4));
       setZoom(map.current.getZoom().toFixed(2));
     });
+
+    map.on('load', async () => {
+      // make an initial directions request that
+      // starts and ends at the same location
+      await getRoute([lng,lat],[coordinates[0],coordinates[1]]);
+  
+    
+      // Add starting point to the map
+      map.addLayer({
+        id: 'point',
+        type: 'circle',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                  type: 'Point',
+                  coordinates: [lng,lat]
+                }
+              }
+            ]
+          }
+        },
+        paint: {
+          'circle-radius': 10,
+          'circle-color': '#3887be'
+        }
+      });
+      // this is where the code from the next step will go
+    });
+  
   }, [lng, lat]);
 
   return (
@@ -115,7 +284,7 @@ const SearchDocs = () => {
             <tbody>
               {doctors?.map((doc) => (
                 <tr
-                  onClick={() => fetchLocation(doc.mapbox_id)}
+                  onClick={() => handleClick(doc.mapbox_id)}
                   className="bg-white h-[50px] shadow cursor-pointer"
                 >
                   <td>
