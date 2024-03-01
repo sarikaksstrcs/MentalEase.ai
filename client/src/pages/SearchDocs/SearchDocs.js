@@ -326,11 +326,16 @@ const SearchDocs = () => {
 
         <div className="relative">
           <div ref={mapContainer} className="h-[400px]" />
-          <div className="bg-sky-200 ml-5 opacity-75 w-1/3 absolute rounded-md m-4 shadow-lg top-0 h-[350px] overflow-auto">
+          <div className="bg-white ml-5 opacity-75 w-1/3 absolute rounded-md m-4 shadow-lg top-0 h-[350px] overflow-auto">
             <h1 className="font-bold flex justify-center m-4">Travel Route</h1>
-            <ul>
-              {summary?.map((doc) => (<li>{doc.maneuver.instruction}</li>))}
-            </ul>
+            {summary?.map((doc, index) => (
+              <div className="p-4" key={index}>
+                <span className={index === summary.length - 1 ? 'font-bold text-green-600  ' : ''}>
+                  {doc.maneuver.instruction}
+                </span>
+                {index !== summary.length - 1 && <hr className="mt-1 p-0 shadow-lg" />}
+              </div>
+            ))}
           </div>
         </div>
         
