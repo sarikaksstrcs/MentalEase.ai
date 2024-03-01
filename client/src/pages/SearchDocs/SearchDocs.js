@@ -269,13 +269,13 @@ const SearchDocs = () => {
     <div className="flex">
       <Navbar />
       <div className="w-3/4 overflow-auto">
-        <div className="flex flex-row items-center p-6 bg-teal-100  h-fit shadow-lg">
+        <div className="flex flex-row items-center p-4 bg-teal-100  h-[12px] shadow-lg">
           <h1 className="ml-4 text-3xl font-semibold text-teal-800">
             Recommended Doctors
           </h1>
         </div>
-        <div className="p-6">
-          <table className="table-auto w-full">
+        <div className="p-4 overflow-auto">
+          <table className="table-auto w-full ">
             <thead className="bg-neutral-100 h-[50px] shadow">
               <tr>
                 <th>
@@ -324,8 +324,8 @@ const SearchDocs = () => {
           </table>
         </div>
 
-        <div className="relative">
-          <div ref={mapContainer} className="h-[400px]" />
+        <div className="relative h-2/3 overflow-hidden">
+          <div ref={mapContainer} className="h-full" />
           <div className="bg-white ml-5 opacity-75 w-1/3 absolute rounded-md m-4 shadow-lg top-0 h-[350px] overflow-auto">
             <h1 className="font-bold flex justify-center m-4">Travel Route</h1>
             {summary?.map((doc, index) => (
