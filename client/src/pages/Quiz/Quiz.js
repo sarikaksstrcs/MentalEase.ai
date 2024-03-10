@@ -104,6 +104,8 @@ const answers = set.map((item) => ({
 const Quiz = () => {
   const [ans, setAns] = useState(answers);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  const [loading,setLoading] = useState(false)
   const navigate = useNavigate();
 
   const handleAnswerChange = (choice) => {
@@ -115,10 +117,11 @@ const Quiz = () => {
   };
 
   const handleSubmit = () => {
-    if (ans.some((answer) => answer.answer === "")) {
+    if (ans.some((answer) => answer.answer === "")) {      
       alert("Please answer all the questions");
       return;
     }
+    setLoading(true);
     axios
       .post("http://localhost:5000/report/fetch", {
         quiz: JSON.stringify(ans),
@@ -134,31 +137,34 @@ const Quiz = () => {
 
   return (
     <div className="px-[16vw] bg-sky-400">
-      <div className="px-[7vw] py-12 bg-white">
+      <div className="px-[7vw] py-12 bg-white h-screen">
         <h1 className="text-6xl font-semibold">CBT</h1>
-        <h1 className="py-4 text-xl">
+        <h1 className="py-2 text-xl">
           Answer the following questions based on how much were you bothered by
           these for the past week:
         </h1>
-        <div className="py-4">
-          <h1 className="text-lg">
-            {currentQuestion + 1}. {set[currentQuestion].question}
+        <div className="pt-2 ">
+          <h1 className="text-lg font-semibold mb-2">
+            {set[currentQuestion].question}
           </h1>
-          <div className="flex flex-row gap-4 py-2">
+          <div className="flex flex-col gap-4">
             {set[currentQuestion].choices.map((choice, index) => (
-              <div className="flex flex-row items-center gap-2" key={index}>
-                <input
-                  type="radio"
-                  checked={ans[currentQuestion].answer === choice}
-                  onChange={() => handleAnswerChange(choice)}
-                  name={set[currentQuestion].question + choice}
-                />
-                <label>{choice}</label>
+              <div className="flex flex-row items-center justify-center  " key={index}>
+                <button
+                  className={`${
+                    ans[currentQuestion].answer === choice
+                      ? 'bg-gray-400'
+                      : 'bg-white'
+                  } text-gray-800 px-4 py-2  w-full rounded-md border-gray-200 border gap-2 hover:bg-gray-200 `}
+                  onClick={() => handleAnswerChange(choice)}
+                >
+      {choice}
+    </button>
               </div>
             ))}
           </div>
         </div>
-        <div className="flex w-full gap-4">
+        <div className="flex w-full gap-4 mt-4">
           <button
             onClick={() => setCurrentQuestion((prev) => prev - 1)}
             disabled={currentQuestion === 0}
@@ -169,7 +175,10 @@ const Quiz = () => {
           {currentQuestion < set.length - 1 && (
             <button
               onClick={() => setCurrentQuestion((prev) => prev + 1)}
-              className="col-span-3 bg-gradient-to-bl from-sky-600 to-sky-300 bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md"
+              disabled={ans[currentQuestion].answer === "" || loading}
+              className={`col-span-3 ${
+                ans[currentQuestion].answer === "" ? "bg-gradient-to-bl from-sky-600 to-sky-300 opacity-10" : "bg-gradient-to-bl from-sky-600 to-sky-300"
+              } bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md`}
             >
               Next
             </button>
@@ -182,6 +191,7 @@ const Quiz = () => {
               Submit
             </button>
           )}
+          {loading && <p>Loading please wait...</p>}
         </div>
       </div>
     </div>
