@@ -30,12 +30,12 @@ const navigations = [
   //   path: "/plans",
   //   Icon: ({ color }) => <PlanIcon color= {color}/>,
   // },
-  // {
-  //   id: 3,
-  //   name: "Reports",
-  //   path: "/reports",
-  //   Icon: ({ color }) => <ReportIcon color= {color}/>,
-  // },
+  {
+    id: 3,
+    name: "Reports",
+    path: "/reports",
+    Icon: ({ color }) => <ReportIcon color= {color}/>,
+  },
   {
     id: 4,
     name: "Search Doctors",

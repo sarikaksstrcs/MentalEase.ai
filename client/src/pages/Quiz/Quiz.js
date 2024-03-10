@@ -96,50 +96,25 @@ const set = [
   },
 ];
 
-const answers = [
-  {
-    question:
-      "For the past week, how much were you bothered by: Nervousness or shakiness inside",
-    answer: "",
-  },
-  {
-    question: "Faintness or dizziness",
-    answer: "",
-  },
-  {
-    question: "The idea that someone else can control your thoughts",
-    answer: "",
-  },
-  {
-    question: "Feeling others are to blame for most of your troubles",
-    answer: "",
-  },
-  {
-    question: "Feeling easily annoyed or irritated",
-    answer: "",
-  },
-  {
-    question: "Pains in heart or chest",
-    answer: "",
-  },
-  {
-    question: "Feeling afraid in open spaces or on the streets",
-    answer: "",
-  },
-  {
-    question: "Thoughts of ending your life",
-    answer: "",
-  },
-  {
-    question: "Feeling that most people cannot be trusted",
-    answer: "",
-  },
-];
+const answers = set.map((item) => ({
+  question: item.question,
+  answer: "",
+}));
 
 const Quiz = () => {
   const [ans, setAns] = useState(answers);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const navigate = useNavigate();
-  const submit = () => {
+
+  const handleAnswerChange = (choice) => {
+    setAns((prevAnswers) =>
+      prevAnswers.map((answer, index) =>
+        index === currentQuestion ? { ...answer, answer: choice } : answer
+      )
+    );
+  };
+
+  const handleSubmit = () => {
     if (ans.some((answer) => answer.answer === "")) {
       alert("Please answer all the questions");
       return;
@@ -154,6 +129,9 @@ const Quiz = () => {
         navigate("/reports");
       });
   };
+
+  const isLastQuestion = currentQuestion === set.length - 1;
+
   return (
     <div className="px-[16vw] bg-sky-400">
       <div className="px-[7vw] py-12 bg-white">
@@ -162,45 +140,48 @@ const Quiz = () => {
           Answer the following questions based on how much were you bothered by
           these for the past week:
         </h1>
-        {set.map((item, index) => (
-          <div className="py-4" key={index}>
-            <h1 className="text-lg">
-              {index + 1}. {item.question}
-            </h1>
-            <div className="flex flex-row gap-4 py-2">
-              {item.choices.map((choice) => (
-                <div className="flex flex-row items-center gap-2" key={choice}>
-                  <input
-                    type="radio"
-                    checked={ans[index].answer === choice}
-                    onChange={() =>
-                      setAns((prev) =>
-                        prev.map((answer, i) =>
-                          i === index ? { ...answer, answer: choice } : answer
-                        )
-                      )
-                    }
-                    name={item.question + choice}
-                  />
-                  <label>{choice}</label>
-                </div>
-              ))}
-            </div>
+        <div className="py-4">
+          <h1 className="text-lg">
+            {currentQuestion + 1}. {set[currentQuestion].question}
+          </h1>
+          <div className="flex flex-row gap-4 py-2">
+            {set[currentQuestion].choices.map((choice, index) => (
+              <div className="flex flex-row items-center gap-2" key={index}>
+                <input
+                  type="radio"
+                  checked={ans[currentQuestion].answer === choice}
+                  onChange={() => handleAnswerChange(choice)}
+                  name={set[currentQuestion].question + choice}
+                />
+                <label>{choice}</label>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
         <div className="flex w-full gap-4">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => setCurrentQuestion((prev) => prev - 1)}
+            disabled={currentQuestion === 0}
             className="col-span-3 bg-gradient-to-bl from-gray-600 to-gray-300 bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md"
           >
-            Cancel
+            Previous
           </button>
-          <button
-            onClick={() => submit()}
-            className="col-span-3 bg-gradient-to-bl from-sky-600 to-sky-300 bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md"
-          >
-            Submit
-          </button>
+          {currentQuestion < set.length - 1 && (
+            <button
+              onClick={() => setCurrentQuestion((prev) => prev + 1)}
+              className="col-span-3 bg-gradient-to-bl from-sky-600 to-sky-300 bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md"
+            >
+              Next
+            </button>
+          )}
+          {isLastQuestion && (
+            <button
+              onClick={handleSubmit}
+              className="col-span-3 bg-gradient-to-bl from-sky-600 to-sky-300 bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </div>
     </div>
