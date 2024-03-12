@@ -12,7 +12,7 @@ import Chat from "./pages/Chat/Chat";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Quiz from "./pages/Quiz/Quiz";
-import Awards from "./pages/Awards/Awards";
+
 import MalChat from "./pages/Chat/MalChat";
 
 const router = createBrowserRouter([
@@ -52,10 +52,7 @@ const router = createBrowserRouter([
     path: "/chat",
     element: <Chat />,
   },
-  {
-    path: "/rewards",
-    element: <Awards />,
-  },
+  
   {
     path: "/home",
     element: <App />,

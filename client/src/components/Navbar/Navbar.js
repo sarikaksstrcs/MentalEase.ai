@@ -42,24 +42,19 @@ const navigations = [
     path: "/search-doctors",
     Icon: ({ color }) => <SearchIcon />,
   },
-  // {
-  //   id: 5,
-  //   path: "/diet-plan",
-  //   name: "Diet Plan",
-  //   Icon: ({ color }) => <MdOutlineFoodBank size={30} className="font-light " />,
-  // },
+  {
+    id: 5,
+    path: "/diet-plan",
+    name: "Diet Plan",
+    Icon: ({ color }) => <MdOutlineFoodBank size={30} className="font-light " />,
+  },
   {
     id: 6,
     path: "/chat",
     name: "Support Group",
     Icon: ({ color }) => <GroupIcon />
   },
-  // {
-  //   id: 8,
-  //   path: "/rewards",
-  //   name: "Rewards",
-  //   Icon: ({ color }) => <RewardIcon />,
-  // },
+  
   // {
   //   id: 7,
   //   name: "Emergency Call",

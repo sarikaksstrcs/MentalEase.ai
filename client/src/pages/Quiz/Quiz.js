@@ -5,7 +5,7 @@ import axios from "axios";
 const set = [
   {
     question:
-      "For the past week, how much were you bothered by: Nervousness or shakiness inside",
+      "Nervousness or shakiness inside",
     choices: [
       "Not at all",
       "A little Bit",
@@ -134,36 +134,44 @@ const Quiz = () => {
   };
 
   const isLastQuestion = currentQuestion === set.length - 1;
+  useEffect(() => {
+    // Delay the addition of the 'opacity-100' class to allow rendering
+    const timer = setTimeout(() => {
+      document.getElementById("question-container").classList.add("opacity-100");
+    }, 100);
 
+    // Clear the timer on component unmount
+    return () => clearTimeout(timer);
+  }, [currentQuestion]); 
   return (
     <div className="px-[16vw] bg-sky-400">
-      <div className="px-[7vw] py-12 bg-white h-screen">
-        <h1 className="text-6xl font-semibold text-sky-600  ">CBT</h1>
-        <h1 className="py-2 text-md  ">
+      <div className="px-[7vw] pt-10 bg-white h-screen">
+        <h1 className="text-6xl font-semibold text-sky-600">CBT</h1>
+        <h1 className="pt-1 text-md static ">
           Answer the following questions based on how much were you bothered by
           these for the past week:
         </h1>
         <div className="pt-2 ">
-          <h1 className="text-lg font-semibold mb-2">
-            {set[currentQuestion].question}
-          </h1>
-          <div className="flex flex-col gap-4">
-            {set[currentQuestion].choices.map((choice, index) => (
-              <div className="flex flex-row items-center justify-center " key={index}>
-                <button
-                  className={`${
-                    ans[currentQuestion].answer === choice
-                      ? 'bg-gray-200'
-                      : 'bg-white'
-                  } text-gray-800 px-4 py-2  w-full rounded-md border-gray-200 border gap-2 hover:bg-gray-200 focus:ring-2 focus:ring-sky-600 `}
-                  onClick={() => handleAnswerChange(choice)}
-                >
-                  {choice}
-                </button>
-              </div>
-            ))}
-          </div>
+      <div id="question-container" className="opacity-0 transition-opacity duration-500">
+        <h1 className="text-lg font-semibold mb-2">
+          {set[currentQuestion].question}
+        </h1>
+        <div className="flex flex-col gap-4">
+          {set[currentQuestion].choices.map((choice, index) => (
+            <div className="flex flex-row items-center justify-center" key={index}>
+              <button
+                className={`${
+                  ans[currentQuestion].answer === choice ? "bg-gray-200" : "bg-white"
+                } text-gray-800 px-4 py-2 w-full rounded-md border-gray-200 border gap-2 hover:bg-gray-200 focus:ring-2 focus:ring-sky-600 transition-all duration-300`}
+                onClick={() => handleAnswerChange(choice)}
+              >
+                {choice}
+              </button>
+            </div>
+          ))}
         </div>
+      </div>
+    </div>
         <div className="flex w-full gap-4 mt-4">
           <button
             onClick={() => setCurrentQuestion((prev) => prev - 1)}
@@ -199,9 +207,15 @@ const Quiz = () => {
               Submit
             </button>
           )}
-          
-
         </div>
+        <div className="flex justify-end  ">
+          <button
+              onClick={() => navigate("/reports")}
+              className="col-span-3 font-bold flex gap-2 bg-gradient-to-bl from-sky-600 to-sky-300 bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md"
+            >
+              Go back
+              </button>
+          </div>
       </div>
     </div>
   );
