@@ -138,8 +138,8 @@ const Quiz = () => {
   return (
     <div className="px-[16vw] bg-sky-400">
       <div className="px-[7vw] py-12 bg-white h-screen">
-        <h1 className="text-6xl font-semibold">CBT</h1>
-        <h1 className="py-2 text-xl">
+        <h1 className="text-6xl font-semibold text-sky-600  ">CBT</h1>
+        <h1 className="py-2 text-md  ">
           Answer the following questions based on how much were you bothered by
           these for the past week:
         </h1>
@@ -149,17 +149,17 @@ const Quiz = () => {
           </h1>
           <div className="flex flex-col gap-4">
             {set[currentQuestion].choices.map((choice, index) => (
-              <div className="flex flex-row items-center justify-center  " key={index}>
+              <div className="flex flex-row items-center justify-center " key={index}>
                 <button
                   className={`${
                     ans[currentQuestion].answer === choice
-                      ? 'bg-gray-400'
+                      ? 'bg-gray-200'
                       : 'bg-white'
-                  } text-gray-800 px-4 py-2  w-full rounded-md border-gray-200 border gap-2 hover:bg-gray-200 `}
+                  } text-gray-800 px-4 py-2  w-full rounded-md border-gray-200 border gap-2 hover:bg-gray-200 focus:ring-2 focus:ring-sky-600 `}
                   onClick={() => handleAnswerChange(choice)}
                 >
-      {choice}
-    </button>
+                  {choice}
+                </button>
               </div>
             ))}
           </div>
@@ -186,12 +186,21 @@ const Quiz = () => {
           {isLastQuestion && (
             <button
               onClick={handleSubmit}
-              className="col-span-3 bg-gradient-to-bl from-sky-600 to-sky-300 bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md"
+              className="col-span-3 font-bold flex gap-2 bg-gradient-to-bl from-sky-600 to-sky-300 bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-500 text-[#02203c] p-3 rounded-md"
             >
+             {loading && <svg xmlns="http://www.w3.org/2000/svg" 
+                fill="none" viewBox="0 0 24 24" 
+                stroke-width="1.5" 
+                stroke="currentColor" 
+                className="w-6 h-6 animate-spin text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+              </svg>}
+          
               Submit
             </button>
           )}
-          {loading && <p>Loading please wait...</p>}
+          
+
         </div>
       </div>
     </div>
