@@ -20,7 +20,7 @@ const Diet = () => {
   return (
     <div className="flex">
       <Navbar />
-      <div className="px-12 py-6 w-[80vw]">
+      <div className="px-12 py-6 w-[80vw] h-screen overflow-auto">
         <h1 className="text-4xl font-semibold mb-12">Diet</h1>
         {!diet?.success ? (
           <div className="mt-6">

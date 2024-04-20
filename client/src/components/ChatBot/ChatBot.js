@@ -526,7 +526,7 @@ useEffect(() => {
   
   
   return (
-    <div className=" flex w-3/4 overflow-hidden h-screen bg-red-300">
+    <div className=" flex w-3/4 overflow-hidden h-screen  bg-gradient-to-br from-green-400 to-green-200">
       <div className="w-0 h-0">
         <AudioReactRecorder state={recordState} onStop={onStop} />
       </div>

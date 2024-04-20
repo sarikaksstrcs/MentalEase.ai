@@ -115,7 +115,7 @@ const MalChat = () => {
     return(
         <div className="flex h-screen w-screen">
             <Navbar className/>
-            <div className="w-3/4 px-36 py-5 overflow-hidden">
+            <div className="w-3/4 px-36 py-5 overflow-hidden  bg-gradient-to-br from-green-400 to-green-200">
                 <div className="flex w-full pt-5 ">
                     <div className="bg-sky-100 w-full h-[480px] p-0 items-center content-center shadow-lg bg-opacity-70 rounded-md rounded-b-lg     ">
                         <ChatHeader />
