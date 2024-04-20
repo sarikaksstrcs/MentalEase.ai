@@ -24,12 +24,12 @@ const navigations = [
     Icon: ({ color }) => <MalChatIcon />
   ,
   },
-  // {
-  //   id: 2,
-  //   name: "Plans",
-  //   path: "/plans",
-  //   Icon: ({ color }) => <PlanIcon color= {color}/>,
-  // },
+  {
+    id: 2,
+    name: " Excersice Plans",
+    path: "/plans",
+    Icon: ({ color }) => <PlanIcon color= {color}/>,
+  },
   {
     id: 3,
     name: "Reports",
