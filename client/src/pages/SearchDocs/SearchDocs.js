@@ -269,7 +269,7 @@ const SearchDocs = () => {
     <div className="flex">
       <Navbar />
       <div className="w-3/4 h-screen overflow-scroll">
-        <div className="flex flex-row items-center p-6 bg-teal-100  h-fit shadow-lg">
+        <div className="flex flex-row items-center p-6 bg-gradient-to-r to-sky-600 from-sky-400  h-fit shadow-lg">
           <h1 className="ml-4 text-3xl font-semibold text-teal-800">
             Recommended Doctors
           </h1>
