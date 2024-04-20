@@ -526,7 +526,7 @@ useEffect(() => {
   
   
   return (
-    <div className=" flex w-3/4 overflow-hidden">
+    <div className=" flex w-3/4 overflow-hidden h-screen bg-red-300">
       <div className="w-0 h-0">
         <AudioReactRecorder state={recordState} onStop={onStop} />
       </div>
@@ -640,7 +640,7 @@ useEffect(() => {
         </div>
 
         {/* <Stats /> */}
-        <div className="w-[83vw]">
+        <div className="w-[83vw] h-screen">
           <Canvas
             dpr={2}
             onCreated={(ctx) => {
