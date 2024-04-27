@@ -5,7 +5,7 @@ const router = express.Router();
 const { getUserFunction } = require("../../controllers/user.controller");
 const { User } = require("../../models");
 const create = (quiz) => {
-  const prompt = `based on the provided cognitive behavioural therapy questionnaire generate an accurate medical report on my mental health in less than 200 words. Also tell me my medical problem. ${quiz}`;
+  const prompt = `based on the provided cognitive behavioural therapy questionnaire generate an accurate medical report on my mental health in less than 200 words. Also tell me my medical problem highlighting the main issue, Assesment , Recommendations and Prognosis. ${quiz}`;
   return prompt;
 };
 

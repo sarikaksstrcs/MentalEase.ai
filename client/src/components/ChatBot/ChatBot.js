@@ -691,6 +691,7 @@ function Bg() {
 
   return (
     <mesh position={[0, 1.5, -2]} scale={[0.9, 0.8, 0.9]}>
+      
       <bufferGeometry />
       <meshBasicMaterial map={texture} />
     </mesh>

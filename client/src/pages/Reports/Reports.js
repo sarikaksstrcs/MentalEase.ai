@@ -43,8 +43,8 @@ const Reports = () => {
 
         {report?.report?.split("\n").map((item, index) => (
           <div>
-            <div key={index} className="mt-2">
-              <h1 className="text-xl">{item}</h1>
+            <div key={index} className={`mt-2 ${index === 0 ? 'text-center p-5 text-blue-500 underline   ' : ''}`}>
+              <h1 className={`text-xl ${item.endsWith(':') ? 'font-bold' : ''}`}>{item.slice(0, -1)}</h1>
             </div>
           </div>
         ))}
