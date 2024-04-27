@@ -20,7 +20,7 @@ const Reports = () => {
   return (
     <div className="flex">
       <Navbar />
-      <div className="px-12 py-6 w-[80vw]">
+      <div className="px-12 py-6 w-3/4 h-screen overflow-auto">
         <h1 className="text-4xl font-semibold mb-12">Report</h1>
         {!report?.success ? (
           <div className="mt-6">
