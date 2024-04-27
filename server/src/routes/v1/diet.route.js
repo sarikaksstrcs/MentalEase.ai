@@ -4,8 +4,9 @@ const query = require("../../utils/open");
 const router = express.Router();
 const { getUserFunction } = require("../../controllers/user.controller");
 const { User } = require("../../models");
+const { log } = require("winston");
 const create = (name, age, sex, height, history, condition, report) => {
-  const prompt = `based on the provided profile, provide a daily diet plan with time and recipe that will improve my mental health. report : name : ${name}, sex : ${sex},age :${age} , height : ${height} , family-medical-history : ${history} ,medical-condition : ${condition}, medical-report : ${report}. `;
+  const prompt = `based on the provided profile, provide a daily diet plan based on Indian Cuisine that will improve my mental health focus more on medical-report. report : name : ${name}, sex : ${sex},age :${age} , height : ${height} , family-medical-history : ${history} ,medical-condition : ${condition}, medical-report : ${report}. `;
   return prompt;
 };
 
@@ -28,15 +29,14 @@ router.post("/diet", async (req, res) => {
     // console.log(prompt)
     const response = await query(prompt);
     const filtered = response.filter(x => x.includes(":") || x.includes("-") || x.match(/\d+\./g)).join("\n")
+    console.log("Filtered: ",response);
     if(filtered.length < 3) {
       res.send({ success: false, message: "diet not generated" });
     }
-    await User.updateOne({ email: req.body.email }, { diet: filtered })
-      .then((response) => {
-        console.log(response);
-        res.send({ success: true, diet: filtered });
-      })
-      .catch((err) => console.log(err));
+
+    res.send({ success: true, diet: response});
+  
+      
   }
 });
 
