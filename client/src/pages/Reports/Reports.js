@@ -6,7 +6,22 @@ import Navbar from "../../components/Navbar/Navbar";
 const Reports = () => {
   const navigate = useNavigate();
   const [report, setReport] = useState(null);
+  const[userId,setUserId] = useState("")
+
+  const fetchData = (url, options) => {
+    return fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        });
+  };
+
+  
   useEffect(() => {
+    setUserId(JSON.parse(localStorage.getItem("data")).id)
+    console.log(userId);
     axios
       .post("http://localhost:5000/report/", {
         email: JSON.parse(localStorage.getItem("data")).email,
@@ -15,7 +30,46 @@ const Reports = () => {
         console.log(res.data);
         setReport(res.data);
       });
+
   }, []);
+  
+  
+
+  useEffect(() => {
+    if (userId) {
+      console.log("samdas",userId);
+      fetchData('http://localhost:5000/mentalissueslastweek', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: userId,
+        })
+      })
+      .then(data => {
+        console.log("Success");
+        console.log(data.mentalissueslastweek);
+        const mentalIssuesLastWeek = data.mentalissueslastweek;
+        const totalIssues = mentalIssuesLastWeek.length;
+        const issueCounts = mentalIssuesLastWeek.reduce((counts, issue) => {
+          counts[issue.mentalissue] = (counts[issue.mentalissue] || 0) + 1;
+          return counts;
+        }, {});
+        
+        const percentages = {};
+        for (const issue in issueCounts) {
+          percentages[issue] = ((issueCounts[issue] / totalIssues) * 100).toFixed(2);
+        }
+        
+        console.log(percentages);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  }, [userId]);
+  
 
   return (
     <div className="flex">
