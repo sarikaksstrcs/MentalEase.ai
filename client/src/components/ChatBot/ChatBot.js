@@ -462,6 +462,46 @@ const ChatBot = () => {
     .catch(error => {
         console.error('Error:', error);
     });
+
+    fetchData('http://localhost:8000/predict', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            sentence: message
+        })
+    })
+    .then(data => {
+        console.log(data.prediction);
+        
+        if (data.prediction !== "None"){
+          fetchData('http://localhost:5000/mentalissuetodb', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  user:'pavanai',
+                  timestamp:'2024-04-27T12:00:00',
+                  mentalissue: data.prediction
+              })
+          })
+          .then(message => {
+              console.log("Success");
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+          
+        }
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+
 };
 
 // Load chats from local storage on component mount
