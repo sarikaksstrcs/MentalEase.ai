@@ -26,6 +26,7 @@ import AudioReactRecorder, { RecordState } from "audio-react-recorder";
 import Webcam from "react-webcam";
 import { BiSolidUser } from "react-icons/bi";
 import { ChatBotIcon, EndCallIcon, StartCallIcon } from "../Icons/Icons";
+import { log } from "three/examples/jsm/nodes/Nodes.js";
 // import { PlaneBufferGeometry } from '@react-three/fiber';
 // extend({ PlaneBufferGeometry})
 const _ = require("lodash");
@@ -425,11 +426,29 @@ const ChatBot = () => {
             return response.json();
         });
   };
+  const[userId,setUserId] = useState("")
+
+  useEffect(() => {
+      
+      setUserId(JSON.parse(localStorage.getItem("data")).id)
   
+  },[]);
+
+  const TimestampGenerator = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+    const second = String(now.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
+  };
+
   const getResponse = async (message) => {
     console.log(message);
     setInputText("");
-
+    
     // Fetch data from the server
     fetchData("http://localhost:8000/gptinterfaceenglish", {
         method: 'POST',
@@ -463,6 +482,10 @@ const ChatBot = () => {
         console.error('Error:', error);
     });
 
+
+    const timestamp = TimestampGenerator();
+    console.log(userId);
+    console.log(timestamp);
     fetchData('http://localhost:8000/predict', {
         method: 'POST',
         headers: {
@@ -482,8 +505,8 @@ const ChatBot = () => {
                   'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                  user:'pavanai',
-                  timestamp:'2024-04-27T12:00:00',
+                  user:userId,
+                  timestamp: timestamp,
                   mentalissue: data.prediction
               })
           })
