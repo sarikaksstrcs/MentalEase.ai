@@ -3,6 +3,7 @@ const openai = require("../../utils/open.conf");
 const query = require("../../utils/open");
 const Replicate = require("replicate");
 const router = express.Router();
+const {MentalIssue} = require("../../models")
 
 router.post("/chatbot", async (req, res) => {
   const message = req.body.message;
@@ -55,13 +56,9 @@ router.post("/botResponse", async (req, res) => {
 router.post("/mentalissuetodb", async (req, res) => {
     try {
         const { user, timestamp, mentalissue } = req.body;
-        // Create a new instance of the MentalIssue model
-        // console.log(user, timestamp, mentalissue);
-
-        // Save the new mental issue to the database
+       
         const newissue = await MentalIssue.create({ user: user, timestamp: timestamp, mentalissue: mentalissue })
 
-        // Respond with success message
         console.log(newissue);
         if (newissue) {
             res.json({ message: 'Mental issue data saved successfully' });
