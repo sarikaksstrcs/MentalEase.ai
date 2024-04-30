@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 
-import { Pie } from 'react-chartjs-2';
+// import { Pie } from 'react-chartjs-2';
 
 const Reports = () => {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ const Reports = () => {
           percentages[issue] = parseFloat(((issueCounts[issue] / totalIssues) * 100).toFixed(2));
         }
         
-        console.log(percentages);
+        console.log("Data to be ploted",percentages);
         // setChartData(percentages)
         const chartLabels = Object.keys(percentages);
         const chartDataValues = Object.values(percentages);
@@ -80,7 +80,7 @@ const Reports = () => {
             }
           ]
         });
-        console.log(chartData);
+        console.log("chartdata",chartData);
 
       })
       .catch(error => {
@@ -126,14 +126,14 @@ const Reports = () => {
         <div>Loading...</div>
       )}
       </div>
-      <div className="flex-grow">
+      {/* <div className="flex-grow">
         {chartData ? (
           <Pie data={chartData} />
           // <p>slaj</p>
         ) : (
           <div>No data available</div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
