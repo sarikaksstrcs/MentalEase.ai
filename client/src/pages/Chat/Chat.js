@@ -167,7 +167,7 @@ const Chat = () => {
           
           <div className="ml-4 cursor-pointer" 
                 onClick = {(e)=>{
-                  sendMessage();
+                  handleClick();
                   scrollToBottom();
                 }} >
            <SendIcon />
