@@ -3,10 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 
+import { Pie } from 'react-chartjs-2';
+
 const Reports = () => {
   const navigate = useNavigate();
   const [report, setReport] = useState(null);
-  const[userId,setUserId] = useState("")
+  const[userId,setUserId] = useState("");
+  const [chartData, setChartData] = useState({});
 
   const fetchData = (url, options) => {
     return fetch(url, options)
@@ -59,10 +62,26 @@ const Reports = () => {
         
         const percentages = {};
         for (const issue in issueCounts) {
-          percentages[issue] = ((issueCounts[issue] / totalIssues) * 100).toFixed(2);
+          percentages[issue] = parseFloat(((issueCounts[issue] / totalIssues) * 100).toFixed(2));
         }
         
         console.log(percentages);
+        // setChartData(percentages)
+        const chartLabels = Object.keys(percentages);
+        const chartDataValues = Object.values(percentages);
+
+        setChartData({
+          labels: chartLabels,
+          datasets: [
+            {
+              data: chartDataValues,
+              backgroundColor: ['#FF6384', '#36A2EB'],
+              hoverBackgroundColor: ['#FF6384', '#36A2EB']
+            }
+          ]
+        });
+        console.log(chartData);
+
       })
       .catch(error => {
         console.error('Error:', error);
@@ -95,13 +114,25 @@ const Reports = () => {
           </button>
         )}
 
-        {report?.report?.split("\n").map((item, index) => (
+        {report?.report ? (
+            report.report.split("\n").map((item, index) => (
           <div>
             <div key={index} className={`mt-2 ${index === 0 ? 'text-center p-5 text-blue-500 underline   ' : ''}`}>
               <h1 className={`text-xl ${item.endsWith(':') ? 'font-bold' : ''}`}>{item.slice(0, -1)}</h1>
             </div>
           </div>
-        ))}
+        ))
+      ): (
+        <div>Loading...</div>
+      )}
+      </div>
+      <div className="flex-grow">
+        {chartData ? (
+          <Pie data={chartData} />
+          // <p>slaj</p>
+        ) : (
+          <div>No data available</div>
+        )}
       </div>
     </div>
   );
