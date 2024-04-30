@@ -12,6 +12,17 @@ import {
   limit,
 } from "firebase/firestore";
 import { SendIcon } from "../../components/Icons/Icons";
+
+const fetchData = (url, options) => {
+  return fetch(url, options)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      });
+};
+
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -43,6 +54,40 @@ const Chat = () => {
     });
     setMessage("");
   };
+
+  const handleClick = () => {
+    console.log("click");
+    fetchData('http://localhost:8000/isproblematic', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: message,
+      })
+    })
+    .then(data => {
+      console.log(data);
+      // Handle response data
+      if (data.gptresponse === "True" ){
+        // sendMessage();
+        setMessage("This Content Violated Community policy hence is removed");
+        console.log(message);
+        
+      }
+      else {
+        sendMessage();
+      }   
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle errors
+    });
+
+      
+  }
+
+
   useEffect(() => {
     const q = query(
       collection(db, "messages"),
@@ -113,7 +158,7 @@ const Chat = () => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  sendMessage();
+                  handleClick();
                   scrollToBottom();
                 }
               }}
