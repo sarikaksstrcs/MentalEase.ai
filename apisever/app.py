@@ -39,7 +39,7 @@ api_key='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',
 name = None
 p = [{"role": "system", "content": "You are a mental health therapist named Mellisa. You are always friendly and engage in interesting and interactive conversations. You always act like a human. You never answer any technical questions, such as those related to writing programs or performing calculations if asked such questions, say you are a therapist and cannot answer such questions.You never answer any technical questions, such as those related to writing programs or performing calculations. Additionally, you refrain from answering any questions outside the scope of mental health issues, including general knowledge or current affairs.if asked say that you cannaot answer them as you are a therapist.Never give any example either say you cannot do it if asked.Never write a program at any cost nor say how does it look like. You keep your conversations short ."}]
 
-conversation_history = [{"role": "system", "content": "Check the given sentance written by a person facing some mental health issue in a group chat do you find it problematic give true or false "}]
+prompt_for_gp_chat = [{"role": "system", "content": "Check the given sentance written by a person facing some mental health issue in a group chat do you find it problematic give true or false "}]
 
 @app.route('/isproblematic', methods=['POST'])
 def isproblematic():
@@ -47,31 +47,22 @@ def isproblematic():
         input_text = request.get_json()
         print("At backend: ",input_text)
         input_text = input_text['content']       
-
-        # Initialize the conversation history with the prompt
-        # conversation_history = [{"role": "system", "content": "Check the given sentence written by a person facing some mental health issue in a group chat. Do you find it problematic? Please answer True or False."}]
         
-        # Append the user's input to the conversation history
-        conversation_history.append({"role": "user", "content": input_text})
-        
-        def gpt_request(conversation_history):
+        def gpt_request(prompt_for_gp_chat):
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=conversation_history
-            )
-            gpt_response = response.choices[0].message.content     
+                messages=prompt_for_gp_chat
+                )
+            gpt_response =response.choices[0].message.content     
             
             return gpt_response
-        
-        gpt_response = gpt_request(conversation_history)
-        # Check if the conversation history has more than one user message
-        
+        gpt_input = prompt_for_gp_chat.append({"role": "user", "content": f"{input_text}"})
+        gpt_response = gpt_request(prompt_for_gp_chat)
         print(gpt_response)
         # mal_text = translate_english_to_malayalam_using_mtrans(gpt_response)
-        return jsonify({"gptresponse": gpt_response})
+        return jsonify({"gptresponse":gpt_response})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
      
 @app.route('/predict', methods=['POST'])
 def predict_route():
