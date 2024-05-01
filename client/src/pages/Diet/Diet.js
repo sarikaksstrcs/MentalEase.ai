@@ -21,7 +21,7 @@ const Diet = () => {
     <div className="flex">
       <Navbar />
       <div className="px-12 py-6 w-3/4 h-screen overflow-auto">
-        <h1 className="text-4xl font-semibold mb-12">Diet</h1>
+        <h1 className="text-4xl font-semibold mb-12">Diet Plan</h1>
         {!diet?.success ? (
           <div className="mt-6">
             <h1 className="text-2xl">No diet found, take a test</h1>
@@ -34,8 +34,8 @@ const Diet = () => {
           </div>
         ) : null}
         {diet?.diet?.split("\n").map((item, index) => (
-          <div key={index} className="mt-2">
-            <h1 className="text-xl">{item}</h1>
+          <div key={index} className={`mt-2 ${index === 0 ? 'py-5 text-blue-500 ' : ''}`}>
+            <h1 className="text-xl py-2">{item}</h1>
           </div>
         ))}
       </div>
