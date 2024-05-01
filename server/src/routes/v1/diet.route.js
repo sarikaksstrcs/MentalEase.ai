@@ -26,7 +26,7 @@ router.post("/diet", async (req, res) => {
       user.condition,
       user.report
     );
-    // console.log(prompt)
+    console.log("Prompt : ",prompt)
     const response = await query(prompt);
     const filtered = response.filter(x => x.includes(":") || x.includes("-") || x.match(/\d+\./g)).join("\n")
     console.log("Filtered: ",response);
