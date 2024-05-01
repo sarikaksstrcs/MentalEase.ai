@@ -10,6 +10,36 @@ import { FaAward } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/Logo-main.png"
 import { GroupIcon, HomeIcon, MalChatIcon, PlanIcon, ReportIcon, RewardIcon, SearchIcon } from "../Icons/Icons";
+
+const help = () =>{
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", "App 59e4c0c8cb93d26a53a24d84d62a1215-accda706-f64b-4736-9ab5-3d067eb251f6");
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Accept", "application/json");
+
+  const raw = JSON.stringify({
+      "messages": [
+          {
+              "destinations": [{"to":"918075841629"}],
+              "from": "ServiceSMS",
+              "text": "Congratulations on sending your first message.\nGo ahead and check the delivery report in the next step."
+          }
+      ]
+  });
+
+  const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+  };
+
+  fetch("https://e1k85n.api.infobip.com/sms/2/text/advanced", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+
+}
 const navigations = [
   {
     id: 1,
@@ -55,11 +85,11 @@ const navigations = [
     Icon: ({ color }) => <GroupIcon />
   },
   
-  // {
-  //   id: 7,
-  //   name: "Emergency Call",
-  //   Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
-  // },
+  {
+    id: 7,
+    name: "Emergency Call",
+    Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
+  },
   
 ];
 const Navbar = () => {
@@ -97,6 +127,7 @@ const Navbar = () => {
             onClick={() => {
               if (nav.id === 7) {
                 toast("Hold Tight! Help Being Sent");
+                help();
               }
             }}
             to={nav.path}
