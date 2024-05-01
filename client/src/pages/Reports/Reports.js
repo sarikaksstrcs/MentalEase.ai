@@ -93,8 +93,8 @@ const Reports = () => {
   return (
     <div className="flex">
       <Navbar />
-      <div className="w-3/4 h-screen overflow-auto">
-        <h1 className="text-4xl font-semibold mx-0 fixed w-full py-5 bg-gradient-to-r to-sky-600 from-sky-400">
+      <div className="w-3/4 h-screen overflow-auto pb-5">
+        <h1 className="text-4xl font-semibold px-5 fixed w-full py-5 bg-gradient-to-r to-sky-600 from-sky-400">
           Report
         </h1>
         {!report?.success ? (
@@ -115,18 +115,21 @@ const Reports = () => {
             Retake test
           </button>
         )}
-
+        <div>
         {report?.report ? (
             report.report.split("\n").map((item, index) => (
           <div>
             <div key={index} className={`px-5   mt-2 ${index === 0 ? 'text-center p-5 text-blue-500 underline   ' : 'text-justify'}`}>
               <h1 className={`text-xl ${item.endsWith(':') ? 'font-bold' : ''}`}>{item.slice(0, -1)}</h1>
-            </div>
+            </div>            
           </div>
+          
         ))
       ): (
         <div>Loading...</div>
       )}
+      <p className="px-5 py-10 text-red-600 font-bold ">Please note that the above report is AI generated and not conclusive. Contact a professional therapist if your issue persists</p>
+      </div>
       </div>
       {/* <div className="flex-grow">
         {chartData ? (
@@ -136,6 +139,7 @@ const Reports = () => {
           <div>No data available</div>
         )}
       </div> */}
+      
     </div>
   );
 };
