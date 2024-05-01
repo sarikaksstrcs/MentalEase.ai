@@ -13,33 +13,43 @@ import { GroupIcon, HomeIcon, MalChatIcon, PlanIcon, ReportIcon, RewardIcon, Sea
 
 const help = () =>{
   const myHeaders = new Headers();
-  myHeaders.append("Authorization", "App 59e4c0c8cb93d26a53a24d84d62a1215-accda706-f64b-4736-9ab5-3d067eb251f6");
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Accept", "application/json");
+myHeaders.append("Authorization", "App 59e4c0c8cb93d26a53a24d84d62a1215-accda706-f64b-4736-9ab5-3d067eb251f6");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Accept", "application/json");
 
-  const raw = JSON.stringify({
-      "messages": [
-          {
-              "destinations": [{"to":"918075841629"}],
-              "from": "ServiceSMS",
-              "text": "Congratulations on sending your first message.\nGo ahead and check the delivery report in the next step."
-          }
-      ]
-  });
+const raw = JSON.stringify({
+    "messages": [
+        {
+            "from": "447860099299",
+            "to": "918075841629",
+            "messageId": "bb7a74c1-c8cb-4f51-86b1-6d4f6ad41b6d",
+            "content": {
+                "templateName": "message_test",
+                "templateData": {
+                    "body": {
+                        "placeholders": ["Sarika"]
+                    }
+                },
+                "language": "en"
+            }
+        }
+    ]
+});
 
-  const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-  };
+const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+};
 
-  fetch("https://e1k85n.api.infobip.com/sms/2/text/advanced", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
+fetch("https://e1k85n.api.infobip.com/whatsapp/1/message/template", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
 
 }
+
 const navigations = [
   {
     id: 1,
