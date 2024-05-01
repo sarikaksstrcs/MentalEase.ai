@@ -269,12 +269,12 @@ const SearchDocs = () => {
     <div className="flex">
       <Navbar />
       <div className="w-3/4 h-screen overflow-scroll">
-        <div className="flex flex-row items-center p-6 bg-gradient-to-r to-sky-600 from-sky-400  h-fit shadow-lg">
+        <div className="flex flex-row items-center p-6 fixed w-full bg-gradient-to-r to-sky-600 from-sky-400  h-fit shadow-lg">
           <h1 className="ml-4 text-3xl font-semibold text-teal-800">
             Recommended Doctors
           </h1>
         </div>
-        <div className="p-6">
+        <div className="p-6 mt-20">
           <table className="table-auto w-full">
             <thead className="bg-neutral-100 h-[50px] shadow">
               <tr>

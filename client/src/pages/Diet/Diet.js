@@ -21,7 +21,7 @@ const Diet = () => {
     <div className="flex">
       <Navbar />
       <div className=" w-3/4 h-screen overflow-auto">
-        <h1 className="text-4xl font-semibold mx-0 fixed w-full py-5 bg-blue-200">Diet Plan</h1>
+        <h1 className="text-4xl font-semibold mx-0 fixed w-full py-5 bg-gradient-to-r to-sky-600 from-sky-400">Diet Plan</h1>
         {!diet?.success ? (
           <div className="mt-20">
             <h1 className="text-2xl">No diet found, take a test</h1>
