@@ -20,10 +20,10 @@ const Diet = () => {
   return (
     <div className="flex">
       <Navbar />
-      <div className="px-12 py-6 w-3/4 h-screen overflow-auto">
-        <h1 className="text-4xl font-semibold mb-12">Diet Plan</h1>
+      <div className=" w-3/4 h-screen overflow-auto">
+        <h1 className="text-4xl font-semibold mx-0 fixed w-full py-5 bg-blue-200">Diet Plan</h1>
         {!diet?.success ? (
-          <div className="mt-6">
+          <div className="mt-20">
             <h1 className="text-2xl">No diet found, take a test</h1>
             <button
               onClick={() => navigate("/quiz")}
@@ -34,7 +34,7 @@ const Diet = () => {
           </div>
         ) : null}
         {diet?.diet?.split("\n").map((item, index) => (
-          <div key={index} className={`mt-2 ${index === 0 ? 'py-5 text-blue-500 ' : ''}`}>
+          <div key={index} className={`mt-2 px-2 text-justify ${index === 0 ? 'mt-20 py-5 text-blue-500 ' : ''}`}>
             <h1 className="text-xl py-2">{item}</h1>
           </div>
         ))}
