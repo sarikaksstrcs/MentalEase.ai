@@ -86,7 +86,7 @@ const Login = () => {
           MentalHealth.ai
         </h1>
         <h1 className="mt-4 text-2xl font-normal ">
-             Where AI Meets Empathy: Your Mental Health Chat Companion In Malayalam
+             Where AI Meets Empathy: Your Friend During Tough Times
         </h1>
         <div className=" pt-4 justify-center flex">
          <img src={wallpaper} className="w-[300px] animate-pulse  " />
