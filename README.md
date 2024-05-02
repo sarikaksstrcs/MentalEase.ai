@@ -21,6 +21,7 @@ pip install SpeechRecognition
 pip install pipwin
 pipwin install pyaudio
 pip install mtranslate
+pip install flask
 
 ### Note
 Ensure you have pygame, SpeechRecognition, and pyaudio dependencies installed properly. If using Windows, use pipwin for pyaudio.
