@@ -71,16 +71,17 @@ const SignUp = () => {
   };
   return (
     <div className="w-full h-screen flex">
-      <div className="flex flex-col px-36 py-6 flex-grow max-w-[50vw]">
-        <div className="mt-32 max-w-[600px]">
-          <h1 className="text-5xl leading-tight font-semibold mt-4 text-transparent bg-clip-text bg-gradient-to-r to-sky-600 from-sky-400">
-          MentalEase.AI
-          </h1>
-          <h1 className="mt-4 text-2xl font-normal ">
-            Where AI Meets Empathy: Your Mental Health Chat Companion
-          </h1>
+      <div className="mt-28 pl-5 w-3/5 ">
+        <h1 class="text-5xl leading-tight font-semibold pt-2 mt-4 text-transparent bg-clip-text bg-gradient-to-r to-sky-600 from-sky-400 
+                  sm:text-xl md:text-2xl lg:text-4xl xl:text-5xl  px-2  ">
+          MentalHealth.ai
+        </h1>
+        <h1 className="mt-4 text-2xl font-bold font-serif italic px-2 ">
+             Your Mental Wellness Ally, Always by Your Side
+        </h1>
+        <div className=" pt-4 justify-center flex">
+         <img src={wallpaper} className="w-[300px] animate-pulse  " />
         </div>
-        <img src={wallpaper} className="w-[300px] animate-pulse  " />
       </div>
       <div className="flex min-w-[650px] justify-between flex-grow bg-[#02203c] text-sky-300">
         <div className="p-8 w-full min-h-[300px] px-24 self-center">
