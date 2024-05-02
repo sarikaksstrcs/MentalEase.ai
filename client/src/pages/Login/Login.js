@@ -85,7 +85,7 @@ const Login = () => {
                   sm:text-xl md:text-2xl lg:text-4xl xl:text-5xl    ">
           MentalHealth.ai
         </h1>
-        <h1 className="mt-4 text-2xl font-bold font-serif ">
+        <h1 className="mt-4 text-2xl font-bold font-serif italic   ">
              Your Mental Wellness Ally, Always by Your Side
         </h1>
         <div className=" pt-4 justify-center flex">
