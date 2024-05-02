@@ -71,7 +71,7 @@ const SignUp = () => {
   };
   return (
     <div className="w-full h-screen flex">
-      <div className="mt-28 pl-5 w-3/5 ">
+      <div className="mt-24  pl-5 w-3/5 ">
         <h1 class="text-5xl leading-tight font-semibold pt-2 mt-4 text-transparent bg-clip-text bg-gradient-to-r to-sky-600 from-sky-400 
                   sm:text-xl md:text-2xl lg:text-4xl xl:text-5xl  px-2  ">
           MentalHealth.ai
