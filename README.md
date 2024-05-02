@@ -15,13 +15,9 @@ Make sure to install the following Python modules:
 
 
 
-pip install gtts
-pip install pygame
-pip install SpeechRecognition
-pip install pipwin
-pipwin install pyaudio
-pip install mtranslate
-pip install flask
+1. pip install gtts pygame SpeechRecognition pipwin mtranslate flask 
+2. pipwin install pyaudio
+
 
 ### Note
 Ensure you have pygame, SpeechRecognition, and pyaudio dependencies installed properly. If using Windows, use pipwin for pyaudio.
