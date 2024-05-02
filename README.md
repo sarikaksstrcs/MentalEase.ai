@@ -1,4 +1,4 @@
-# MentalEase.ai
+# MentalHealth.ai
 MentalEase.ai is your mental health companion utilizing AI and NLP, developed using the MERN stack (MongoDB, Express.js, React, Node.js) and Flask.
 
 ## Getting Started
