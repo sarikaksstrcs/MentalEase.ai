@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdEmail, MdPassword, MdPerson, MdCheck } from "react-icons/md";
 import { PiCaretUpDownBold } from "react-icons/pi";
-import wallpaper from "../../assets/login_wallp.png";
+import wallpaper from "../../assets/Logo-main.png";
 import { Tab, Listbox, Transition } from "@headlessui/react";
 import axios from "axios";
 
@@ -80,7 +80,7 @@ const SignUp = () => {
             Where AI Meets Empathy: Your Mental Health Chat Companion
           </h1>
         </div>
-        <img src={wallpaper} className="w-[450px]" />
+        <img src={wallpaper} className="w-[300px] animate-pulse  " />
       </div>
       <div className="flex min-w-[650px] justify-between flex-grow bg-[#02203c] text-sky-300">
         <div className="p-8 w-full min-h-[300px] px-24 self-center">
