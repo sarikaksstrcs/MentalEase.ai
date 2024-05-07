@@ -63,6 +63,36 @@ def isproblematic():
         return jsonify({"gptresponse":gpt_response})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/diet', methods=['POST'])
+def diet():
+    try:
+        input_text = request.get_json()
+        print("At backend: ",input_text)
+        user_details = input_text['content']   
+
+        print("Diet backend",user_details)
+        
+        
+
+        
+        def gpt_request(prompt):
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=prompt
+                )
+            gpt_response =response.choices[0].message.content     
+            
+            return gpt_response
+        
+        prompt_for_diet = "Create a diet plan based on southindian cuisine for a patient with the follwing details".user_details
+        print(prompt_for_diet)
+        gpt_response = gpt_request(prompt_for_diet)
+        print(gpt_response)
+        # mal_text = translate_english_to_malayalam_using_mtrans(gpt_response)
+        return jsonify({"gptresponse":gpt_response})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
      
 @app.route('/predict', methods=['POST'])
 def predict_route():
