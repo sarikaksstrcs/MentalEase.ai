@@ -72,7 +72,7 @@ const PieChart = () => {
                 datasets: [{
                     label: "Percentage",
                     data: chartDataValues,
-                    backgroundColor: ["green", "#FF6384","red"],
+                    backgroundColor: ["green", "#FF6384","red","yellow","orange"],
                     
                 }],
             },
@@ -80,11 +80,11 @@ const PieChart = () => {
     };
 
     return (
-        <div  className="w-1/3 rounded-md shadow-md pl-2 hover:scale-100 duration-300">
+        <div  className="w-1/3 rounded-md shadow-xl mx-20 justify-center  hover:scale-110 duration-300">
             <div className="pb-0 ">
                 <canvas id="myPieChart"></canvas>
             </div>
-            <div className="flext justify-center text-center pt-4 font-bold">
+            <div className="flex justify-center text-center pt-4 font-bold">
                 Mental Report
             </div>
         </div>

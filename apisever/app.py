@@ -107,7 +107,7 @@ def predict_route():
             
             return gpt_response
         
-    prompt_for_prediction = [{"role": "system", "content": "Given a sentance by user identify the mental issue faced by him from it and classify it as 'Anxiety','Depression','Suicide','Insomnia','Eating Disorder','PTSD' or 'None' "}]
+    prompt_for_prediction = [{"role": "system", "content": "Given a sentance by user identify the mental issue faced by him from it and classify it as 'Anxiety','Depression','Suicide','Insomnia','Eating Disorder','PTSD' or 'None' Donot give anything else"}]
     prompt_for_prediction.append({"role": "user", "content": f"{new_sentence}"})
     print(prompt_for_prediction)
     gpt_response = gpt_request(prompt_for_prediction)
