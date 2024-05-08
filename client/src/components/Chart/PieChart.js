@@ -72,7 +72,7 @@ const PieChart = () => {
                 datasets: [{
                     label: "Percentage",
                     data: chartDataValues,
-                    backgroundColor: ["green", "#FF6384","red","yellow","orange"],
+                    backgroundColor: ["green", "#FF6384","red","yellow","orange","blue"],
                     
                 }],
             },
