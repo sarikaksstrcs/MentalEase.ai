@@ -98,12 +98,22 @@ def diet():
 def predict_route():
     data = request.get_json()
     new_sentence = data['sentence']
-    if ismental(new_sentence,model2,tokenizer):
-        prediction = predict(new_sentence,model,tokenizer)    
-        print(prediction)
-        return jsonify({"prediction": prediction})
-    else:
-        return jsonify({"prediction": "None"})
+    def gpt_request(prompt):
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=prompt
+                )
+            gpt_response =response.choices[0].message.content     
+            
+            return gpt_response
+        
+    prompt_for_prediction = [{"role": "system", "content": "Given a sentance by user identify the mental issue faced by him from it and classify it as 'Anxiety','Depression','Suicide','Insomnia','Eating Disorder','PTSD' or 'None' "}]
+    prompt_for_prediction.append({"role": "user", "content": f"{new_sentence}"})
+    print(prompt_for_prediction)
+    gpt_response = gpt_request(prompt_for_prediction)
+    print(gpt_response)
+    # mal_text = translate_english_to_malayalam_using_mtrans(gpt_response)
+    return jsonify({"prediction":gpt_response})
 
 
 @app.route('/malaudiotoengtext', methods=['POST'])

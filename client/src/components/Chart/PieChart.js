@@ -2,11 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
 
 const PieChart = () => {
-    const [tasks, setTasks] = useState([]);
     const chartRef = useRef(null); // Reference to the chart instance
 
     const[userId,setUserId] = useState("");
-    const [chartData, setChartData] = useState({});
 
     const fetchData = (url, options) => {
         return fetch(url, options)
@@ -55,19 +53,7 @@ const PieChart = () => {
             // setChartData(percentages)
             const chartLabels = Object.keys(percentages);
             const chartDataValues = Object.values(percentages);
-            drawPieChart(chartDataValues,chartLabels);
-            setChartData({
-              labels: chartLabels,
-              datasets: [
-                {
-                  data: chartDataValues,
-                  backgroundColor: ['#FF6384', '#36A2EB'],
-                  hoverBackgroundColor: ['#FF6384', '#36A2EB']
-                }
-              ]
-            });
-            console.log("chartdata",chartData);
-    
+            drawPieChart(chartDataValues,chartLabels);    
           })
           .catch(error => {
             console.error('Error:', error);
