@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
+import PieChart from "../../components/Chart/PieChart";
 
 // import { Pie } from 'react-chartjs-2';
 
@@ -130,6 +131,7 @@ const Reports = () => {
       )}
       <p className="px-5 py-10 text-red-600 font-bold ">Please note that the above report is AI generated and not conclusive. Contact a professional therapist if your issue persists</p>
       </div>
+      <PieChart/>
       </div>
       {/* <div className="flex-grow">
         {chartData ? (
