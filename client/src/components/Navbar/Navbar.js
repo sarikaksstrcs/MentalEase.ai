@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaAward } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/Logo-main.png"
-import { GroupIcon, HomeIcon, MalChatIcon, PlanIcon, ReportIcon, RewardIcon, SearchIcon } from "../Icons/Icons";
+import { EmergencyIcon, GroupIcon, HomeIcon, MalChatIcon, PlanIcon, ReportIcon, RewardIcon, SearchIcon } from "../Icons/Icons";
 
 const help = () =>{
   const myHeaders = new Headers();
@@ -97,8 +97,8 @@ const navigations = [
   
   {
     id: 7,
-    name: "Emergency Call",
-    Icon: ({ color }) => <BiSolidPhoneCall size={25} color={color} />,
+    name: "Emergency Message",
+    Icon: ({ color }) => <EmergencyIcon />,
   },
   
 ];

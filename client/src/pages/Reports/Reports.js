@@ -67,7 +67,12 @@ const Reports = () => {
       )}
       <p className="px-5 py-10 text-red-600 font-bold ">Please note that the above report is AI generated and not conclusive. Contact a professional therapist if your issue persists</p>
       </div>
-      <PieChart/>
+      <h1 className="font-bold underline text-2xl text-center text-blue-400 py-5">Mental Health Insight Based on Chat</h1>
+      <p className="px-5 pb-10 text-blue-600 font-bold ">Given below is the problems Identified from Your chat in the past week</p>
+      <div className="flex place-content-center">
+        <PieChart/>
+      </div>
+      
       </div>
       {/* <div className="flex-grow">
         {chartData ? (

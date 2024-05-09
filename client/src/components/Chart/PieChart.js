@@ -80,7 +80,7 @@ const PieChart = () => {
     };
 
     return (
-        <div  className="w-1/3 rounded-md shadow-xl mx-20 justify-center  hover:scale-110 duration-300">
+        <div  className="w-1/3 bg-gray-100   rounded-md shadow-xl mx-20 justify-center  hover:scale-110 duration-300">
             <div className="pb-0 ">
                 <canvas id="myPieChart"></canvas>
             </div>
